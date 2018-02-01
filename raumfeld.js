@@ -4,8 +4,7 @@ var RaumkernelLib = require('node-raumkernel');
 var raumkernel = new RaumkernelLib.Raumkernel();
 
 class MyNewLogger extends RaumkernelLib.Logger {
-    initExternalLogger()
-    { }
+    initExternalLogger() { }
 }
 
 raumkernel.parmLogger(new MyNewLogger ())
