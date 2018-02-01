@@ -65,7 +65,7 @@ module.exports = function(RED) {
         var roomName = config.roomName;
         var mute = config.mute;
 
-        raumkernel.on("rendererStateKeyValueChanged", function(_mediaRenderer, _key, _oldValue, _newValue) {
+        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue) {
             var msg = {};
             msg.roomName = roomName;
 
@@ -88,6 +88,12 @@ module.exports = function(RED) {
 
                 node.send(msg);
             }
+        }
+
+        raumkernel.on("rendererStateKeyValueChanged", handleEvent);
+
+        this.on('close', function() {
+            raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld room volume changed", RaumfeldRoomVolumeChanged);
@@ -131,7 +137,7 @@ module.exports = function(RED) {
 
         var roomName = config.roomName;
 
-        raumkernel.on("rendererStateKeyValueChanged", function(_mediaRenderer, _key, _oldValue, _newValue) {
+        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue) {
             var msg = {};
             msg.roomName = roomName;
 
@@ -142,6 +148,12 @@ module.exports = function(RED) {
 
                 node.send(msg);
             }
+        }
+
+        raumkernel.on("rendererStateKeyValueChanged", handleEvent);
+
+        this.on('close', function() {
+            raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
