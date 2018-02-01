@@ -1,9 +1,15 @@
-'use strict'; 
-var RaumkernelLib = require('node-raumkernel');
+'use strict';
 
+var RaumkernelLib = require('node-raumkernel');
 var raumkernel = new RaumkernelLib.Raumkernel();
 
-raumkernel.createLogger(0);
+class MyNewLogger extends RaumkernelLib.Logger {
+    initExternalLogger()
+    { }
+}
+
+raumkernel.parmLogger(new MyNewLogger ())
+
 raumkernel.init();
 
 var zoneManager = raumkernel.managerDisposer.zoneManager;
@@ -27,8 +33,8 @@ module.exports = function(RED) {
 
             if (mediaRendererUdn) {
                 var mediaRenderer = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
-                                
-                mediaRenderer.setRoomVolume(roomUdn, volume).then(function() {                    
+
+                mediaRenderer.setRoomVolume(roomUdn, volume).then(function() {
                     if (config.unmute) {
                         mediaRenderer.setRoomMute(roomUdn, 0).then(function() {
                             msg.payload = true;
