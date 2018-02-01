@@ -63,6 +63,7 @@ module.exports = function(RED) {
         var node = this;
 
         var roomName = config.roomName;
+        var mute = config.mute;
 
         raumkernel.on("rendererStateKeyValueChanged", function(_mediaRenderer, _key, _oldValue, _newValue) {
             var msg = {};
@@ -75,7 +76,7 @@ module.exports = function(RED) {
 
                 node.send(msg);
             }
-            else if (config.mute && _mediaRenderer.roomName() == roomName && _key == "Mute") {
+            else if (mute && _mediaRenderer.roomName() == roomName && _key == "Mute") {
                 if (_newValue == "1") {
                     msg.newVolume = "0";
                     msg.payload = "0";
@@ -90,4 +91,58 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room volume changed", RaumfeldRoomVolumeChanged);
+
+    function RaumfeldSetRoomMuteNode(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName;
+            var mute = config.mute || msg.payload;
+
+            msg.roomName = roomName;
+            msg.mute = mute;
+
+            var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var mediaRendererUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+
+            if (mediaRendererUdn) {
+                var mediaRenderer = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+
+                mediaRenderer.setRoomMute(roomUdn, mute).then(function() {
+                    msg.payload = true;
+                }).catch(function() {
+                    msg.payload = false;
+                });
+            }
+            else {
+                msg.payload = false;
+            }
+
+            node.send(msg);
+        });
+    }
+    RED.nodes.registerType("raumfeld set room mute", RaumfeldSetRoomMuteNode);
+
+    function RaumfeldRoomMuteChanged(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        var roomName = config.roomName;
+
+        raumkernel.on("rendererStateKeyValueChanged", function(_mediaRenderer, _key, _oldValue, _newValue) {
+            var msg = {};
+            msg.roomName = roomName;
+
+            if (_mediaRenderer.roomName() == roomName && _key == "Mute") {
+                msg.oldMute = _oldValue;
+                msg.newMute = _newValue;
+                msg.payload = _newValue;
+
+                node.send(msg);
+            }
+        });
+    }
+    RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
 }

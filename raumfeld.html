@@ -5,14 +5,14 @@
         defaults: {
             roomName: {value: ""},
             volume: {value: ""},
-            unmute: {value: true},
+            unmute: {value: false},
             name: {value: ""}
         },
         inputs:1,
         outputs:1,
         icon: "file.png",
         label: function() {
-            return this.name || (this.roomName ? 
+            return this.name || (this.roomName ?
                                 (this.volume ? "'" + this.roomName + "' volume to " + this.volume : "'" + this.roomName + "' volume")
                                 : "raumfeld set room volume");
         }
@@ -54,14 +54,14 @@
         color: '#a6bbcf',
         defaults: {
             roomName: {value: ""},
-            mute: {value: true},
+            mute: {value: false},
             name: {value: ""}
         },
         inputs:0,
         outputs:1,
         icon: "file.png",
         label: function() {
-            return this.name || (this.roomName ? 
+            return this.name || (this.roomName ?
                                 "'" + this.roomName + "' volume changed"
                                 : "raumfeld room volume changed");
         }
@@ -87,5 +87,86 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room volume changed">
+    <p>FILL ME!</p>
+</script>
+
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld set room mute',{
+        category: 'raumfeld',
+        color: '#a6bbcf',
+        defaults: {
+            roomName: {value: ""},
+            mute: {value: false},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                this.roomName + "' mute"
+                                : "raumfeld set room mute");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld set room mute">
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-unmute" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-mute" style="width: 70%;">Mute?</label>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld set room mute">
+    <p>FILL ME!</p>
+</script>
+
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld room mute changed',{
+        category: 'raumfeld',
+        color: '#a6bbcf',
+        defaults: {
+            roomName: {value: ""},
+            name: {value: ""}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                "'" + this.roomName + "' mute changed"
+                                : "raumfeld room mute changed");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld room mute changed">
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld room mute changed">
     <p>FILL ME!</p>
 </script>
