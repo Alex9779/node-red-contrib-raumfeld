@@ -103,7 +103,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var mute = config.mute || msg.payload;
+            var mute = config.mute || msg.mute || msg.payload;
 
             msg.roomName = roomName;
             msg.mute = mute;
