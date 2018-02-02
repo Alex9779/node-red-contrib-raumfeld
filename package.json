@@ -9,11 +9,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "node-raumkernel": "^1.2.6"
+    "node-raumkernel": "^1.2.12"
   },
   "node-red": {
     "nodes": {
-        "raumfeld": "raumfeld.js"
+      "raumfeld": "raumfeld.js"
     }
   }
 }
