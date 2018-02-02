@@ -64,18 +64,18 @@ module.exports = function(RED) {
         var roomName = config.roomName;
         var mute = config.mute;
 
-        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue) {
+        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
             var msg = {};
             msg.roomName = roomName;
 
-            if (_mediaRenderer.roomName() == roomName && _key == "Volume") {
+            if (!_roomUdn && _mediaRenderer.roomName() == roomName && _key == "Volume") {
                 msg.oldVolume = _oldValue;
                 msg.newVolume = _newValue;
                 msg.payload = _newValue;
 
                 node.send(msg);
             }
-            else if (mute && _mediaRenderer.roomName() == roomName && _key == "Mute") {
+            else if (!_roomUdn && mute && _mediaRenderer.roomName() == roomName && _key == "Mute") {
                 if (_newValue == "1") {
                     msg.newVolume = "0";
                     msg.payload = "0";
@@ -136,11 +136,11 @@ module.exports = function(RED) {
 
         var roomName = config.roomName;
 
-        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue) {
+        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
             var msg = {};
             msg.roomName = roomName;
 
-            if (_mediaRenderer.roomName() == roomName && _key == "Mute") {
+            if (!_roomUdn && _mediaRenderer.roomName() == roomName && _key == "Mute") {
                 msg.oldMute = _oldValue;
                 msg.newMute = _newValue;
                 msg.payload = _newValue;
