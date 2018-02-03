@@ -59,7 +59,7 @@ module.exports = function(RED) {
             else {
                 msg.payload = false;
 
-            node.send(msg);
+                node.send(msg);
             }
         });
     }
@@ -136,7 +136,7 @@ module.exports = function(RED) {
             else {
                 msg.payload = false;
 
-            node.send(msg);
+                node.send(msg);
             }
         });
     }
@@ -168,4 +168,44 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
+
+    function RaumfeldRoomPlayPlaylist(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName;
+            var playlist = config.playlist || msg.playlist || msg.payload;
+
+            msg.roomName = roomName;
+            msg.playlist = playlist;
+
+            var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+
+            deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+                if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + encodeURI(playlist)
+                        && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
+                        && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                    zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true).then(function() {
+                        msg.payload = true;
+
+                        node.send(msg);
+                    }).catch(function() {
+                        msg.payload = false;
+
+                        node.send(msg);
+                    });
+                }
+                else if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + encodeURI(playlist)
+                         && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
+                         && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                    msg.payload = true;
+
+                    node.send(msg);
+                }
+            });
+        });
+    }
+    RED.nodes.registerType("raumfeld room play playlist", RaumfeldRoomPlayPlaylist);
 }

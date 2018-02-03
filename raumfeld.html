@@ -170,3 +170,44 @@
 <script type="text/x-red" data-help-name="raumfeld room mute changed">
     <p>FILL ME!</p>
 </script>
+
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld room play playlist',{
+        category: 'raumfeld',
+        color: '#a6bbcf',
+        defaults: {
+            roomName: {value: ""},
+            playlist: {value: ""},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name || "raumfeld room play playlist";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld room play playlist">
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-playlist"><i class="icon-tag"></i> Playlist</label>
+        <input type="text" id="node-input-playlist" placeholder="Playlist"/>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld room play playlist">
+    <p>FILL ME!</p>
+</script>
