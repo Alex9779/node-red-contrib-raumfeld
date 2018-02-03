@@ -1,8 +1,30 @@
 <script type="text/javascript">
+    RED.nodes.registerType('raumfeld raumkernel',{
+        category: 'config',
+        defaults: {
+            raumfeldHost: {value:"0.0.0.0", required: true},
+        },
+        label: function() {
+            return this.raumfeldHost == "0.0.0.0" ? "Bonjour discovery" : this.raumfeldHost;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld raumkernel">
+    <div class="form-row">
+        <label for="node-config-input-raumfeldHost"><i class="icon-bookmark"></i> Raumfeld host</label>
+        <input type="text" id="node-config-input-raumfeldHost">
+    </div>
+</script>
+
+
+
+<script type="text/javascript">
     RED.nodes.registerType('raumfeld set room volume',{
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
+            raumkernel: {type:"raumfeld raumkernel", required: true},
             roomName: {value: ""},
             volume: {value: ""},
             unmute: {value: false},
@@ -20,6 +42,11 @@
 </script>
 
 <script type="text/x-red" data-template-name="raumfeld set room volume">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> raumkernel</label>
+        <input type="text" id="node-input-raumkernel" placeholder="raumkernel">
+    </div>
+
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">
@@ -53,6 +80,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
+            raumkernel: {type:"raumfeld raumkernel", required: true},
             roomName: {value: ""},
             mute: {value: false},
             name: {value: ""}
@@ -69,6 +97,11 @@
 </script>
 
 <script type="text/x-red" data-template-name="raumfeld room volume changed">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> raumkernel</label>
+        <input type="text" id="node-input-raumkernel" placeholder="raumkernel">
+    </div>
+
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">
@@ -97,6 +130,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
+            raumkernel: {type:"raumfeld raumkernel", required: true},
             roomName: {value: ""},
             mute: {value: false},
             name: {value: ""}
@@ -113,6 +147,11 @@
 </script>
 
 <script type="text/x-red" data-template-name="raumfeld set room mute">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> raumkernel</label>
+        <input type="text" id="node-input-raumkernel" placeholder="raumkernel">
+    </div>
+
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">
@@ -141,6 +180,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
+            raumkernel: {type:"raumfeld raumkernel", required: true},
             roomName: {value: ""},
             name: {value: ""}
         },
@@ -156,6 +196,11 @@
 </script>
 
 <script type="text/x-red" data-template-name="raumfeld room mute changed">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> raumkernel</label>
+        <input type="text" id="node-input-raumkernel" placeholder="raumkernel">
+    </div>
+
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">
@@ -178,6 +223,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
+            raumkernel: {type:"raumfeld raumkernel", required: true},
             roomName: {value: ""},
             playlist: {value: ""},
             volume: {volume: ""},
@@ -197,6 +243,11 @@
 </script>
 
 <script type="text/x-red" data-template-name="raumfeld room load playlist">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> raumkernel</label>
+        <input type="text" id="node-input-raumkernel" placeholder="raumkernel">
+    </div>
+
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">

@@ -1,34 +1,46 @@
 'use strict';
 
-var RaumkernelLib = require('node-raumkernel');
-var raumkernel = new RaumkernelLib.Raumkernel();
-
-class MyNewLogger extends RaumkernelLib.Logger {
-    initExternalLogger() { }
-}
-
-raumkernel.parmLogger(new MyNewLogger ())
-
-raumkernel.init();
-
-var zoneManager = raumkernel.managerDisposer.zoneManager;
-var deviceManager = raumkernel.managerDisposer.deviceManager;
-
 module.exports = function(RED) {
+    function RaumfeldRaumkernelNode(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumfeldHost = config.raumfeldHost;
+
+        var RaumkernelLib = require('node-raumkernel');
+        node.raumkernel = new RaumkernelLib.Raumkernel();
+
+        node.raumkernel.settings.raumfeldHost = node.raumfeldHost;
+
+        class EmptyLogger extends RaumkernelLib.Logger {
+            initExternalLogger() { }
+        }
+
+        node.raumkernel.parmLogger(new EmptyLogger ())
+
+        node.raumkernel.init();
+
+        node.zoneManager = node.raumkernel.managerDisposer.zoneManager;
+        node.deviceManager = node.raumkernel.managerDisposer.deviceManager;
+    }
+    RED.nodes.registerType("raumfeld raumkernel", RaumfeldRaumkernelNode);
+
     function RaumfeldSetRoomVolumeNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
+
+        node.raumkernel = RED.nodes.getNode(config.raumkernel);
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
             var volume = config.volume || msg.volume || msg.payload;
 
-            var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var room = node.raumkernel.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtualUdn = node.raumkernel.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
 
             if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtualUdn = deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
+                var mediaRendererVirtualUdn = node.raumkernel.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
 
                 mediaRendererVirtualUdn.setRoomVolume(roomUdn, volume).then(function() {
                     if (config.unmute) {
@@ -43,6 +55,8 @@ module.exports = function(RED) {
     function RaumfeldRoomVolumeChanged(config) {
         RED.nodes.createNode(this, config);
         var node = this;
+
+        node.raumkernel = RED.nodes.getNode(config.raumkernel);
 
         var roomName = config.roomName;
         var mute = config.mute;
@@ -72,10 +86,10 @@ module.exports = function(RED) {
             }
         }
 
-        raumkernel.on("rendererStateKeyValueChanged", handleEvent);
+        node.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
         this.on('close', function() {
-            raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
+            node.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld room volume changed", RaumfeldRoomVolumeChanged);
@@ -84,16 +98,18 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
+        node.raumkernel = RED.nodes.getNode(config.raumkernel);
+
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
             var mute = config.mute || msg.mute || msg.payload;
 
-            var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var room = node.raumkernel.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtualUdn = node.raumkernel.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
 
             if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+                var mediaRendererVirtual = node.raumkernel.deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
 
                 mediaRendererVirtual.setRoomMute(roomUdn, mute);
             }
@@ -104,6 +120,8 @@ module.exports = function(RED) {
     function RaumfeldRoomMuteChanged(config) {
         RED.nodes.createNode(this, config);
         var node = this;
+
+        node.raumkernel = RED.nodes.getNode(config.raumkernel);
 
         var roomName = config.roomName;
 
@@ -120,10 +138,10 @@ module.exports = function(RED) {
             }
         }
 
-        raumkernel.on("rendererStateKeyValueChanged", handleEvent);
+        node.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
         this.on('close', function() {
-            raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
+            node.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
@@ -132,17 +150,19 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         var node = this;
 
+        node.raumkernel = RED.nodes.getNode(config.raumkernel);
+
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
             var playlist = config.playlist || msg.playlist || msg.payload;
             var volume = config.volume || msg.volume;
 
-            var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var room = node.raumkernel.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
 
             var alreadyPlaying = false;
 
-            deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+            node.raumkernel.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
                 if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + encodeURI(playlist)
                         && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
                         && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
@@ -152,7 +172,7 @@ module.exports = function(RED) {
                         mediaRendererVirtual.setRoomVolume(roomUdn, volume)
                     }
 
-                    zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
+                    node.raumkernel.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
                 }
                 else if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + encodeURI(playlist)
                          && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
@@ -167,13 +187,13 @@ module.exports = function(RED) {
 
             if (!alreadyPlaying)
             {
-                var mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(roomName);
+                var mediaRendererVirtual = node.raumkernel.deviceManager.getVirtualMediaRenderer(roomName);
 
                 if (!mediaRendererVirtual) {
                     mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
                         setTimeout(function() {
                             zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
-                                mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(roomName);
+                                mediaRendererVirtual = node.raumkernel.deviceManager.getVirtualMediaRenderer(roomName);
 
                                 if (volume) {
                                     mediaRendererVirtual.setRoomVolume(roomUdn, volume)
