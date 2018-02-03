@@ -25,12 +25,12 @@ module.exports = function(RED) {
 
             var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
-            var mediaRendererUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtualUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
 
-            if (mediaRendererUdn) {
-                var mediaRenderer = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtualUdn = deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
 
-                mediaRenderer.setRoomVolume(roomUdn, volume).then(function() {
+                mediaRendererVirtualUdn.setRoomVolume(roomUdn, volume).then(function() {
                     if (config.unmute) {
                         mediaRenderer.setRoomMute(roomUdn, 0);
                     }
@@ -90,12 +90,12 @@ module.exports = function(RED) {
 
             var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
-            var mediaRendererUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtualUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
 
-            if (mediaRendererUdn) {
-                var mediaRenderer = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
 
-                mediaRenderer.setRoomMute(roomUdn, mute);
+                mediaRendererVirtual.setRoomMute(roomUdn, mute);
             }
         });
     }
