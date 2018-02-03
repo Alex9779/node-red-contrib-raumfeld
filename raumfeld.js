@@ -88,7 +88,7 @@ module.exports = function(RED) {
 
         node.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
-        this.on('close', function() {
+        node.on('close', function() {
             node.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
@@ -140,7 +140,7 @@ module.exports = function(RED) {
 
         node.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
-        this.on('close', function() {
+        node.on('close', function() {
             node.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
