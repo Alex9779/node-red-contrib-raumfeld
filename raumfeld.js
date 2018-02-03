@@ -141,6 +141,7 @@ module.exports = function(RED) {
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
             var playlist = config.playlist || msg.playlist || msg.payload;
+            var volume = config.volume || msg.volume;
 
             msg.roomName = roomName;
             msg.playlist = playlist;
@@ -156,12 +157,20 @@ module.exports = function(RED) {
                         && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
 
+                    if (volume) {
+                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                    }
+
                     zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
                 }
                 else if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + encodeURI(playlist)
                          && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
                          && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
+
+                    if (volume) {
+                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                    }
                 }
             });
 
@@ -174,6 +183,11 @@ module.exports = function(RED) {
                         setTimeout(function() {
                             zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
                                 mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(roomName);
+
+                                if (volume) {
+                                    mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                }
+
                                 mediaRendererVirtual.loadPlaylist(playlist);
                             });
                         }, 1000);
@@ -182,6 +196,10 @@ module.exports = function(RED) {
                 else {
                     mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
                         setTimeout(function() {
+                            if (volume) {
+                                mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                            }
+
                             mediaRendererVirtual.loadPlaylist(playlist);
                         }, 1000);
                     });
