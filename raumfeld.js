@@ -37,22 +37,30 @@ module.exports = function(RED) {
                     if (config.unmute) {
                         mediaRenderer.setRoomMute(roomUdn, 0).then(function() {
                             msg.payload = true;
+
+                            node.send(msg);
                         }).catch(function() {
                             msg.payload = false;
+
+                            node.send(msg);
                         });
                     }
                     else {
                         msg.payload = true;
+
+                        node.send(msg);
                     }
                 }).catch(function() {
                     msg.payload = false;
+
+                    node.send(msg);
                 });
             }
             else {
                 msg.payload = false;
-            }
 
             node.send(msg);
+            }
         });
     }
     RED.nodes.registerType("raumfeld set room volume", RaumfeldSetRoomVolumeNode);
@@ -117,15 +125,19 @@ module.exports = function(RED) {
 
                 mediaRenderer.setRoomMute(roomUdn, mute).then(function() {
                     msg.payload = true;
+
+                    node.send(msg);
                 }).catch(function() {
                     msg.payload = false;
+
+                    node.send(msg);
                 });
             }
             else {
                 msg.payload = false;
-            }
 
             node.send(msg);
+            }
         });
     }
     RED.nodes.registerType("raumfeld set room mute", RaumfeldSetRoomMuteNode);
