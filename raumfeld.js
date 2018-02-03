@@ -134,7 +134,7 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
 
-    function RaumfeldRoomPlayPlaylist(config) {
+    function RaumfeldRoomLoadPlaylist(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -189,5 +189,5 @@ module.exports = function(RED) {
             }
         });
     }
-    RED.nodes.registerType("raumfeld room play playlist", RaumfeldRoomPlayPlaylist);
+    RED.nodes.registerType("raumfeld room load playlist", RaumfeldRoomLoadPlaylist);
 }

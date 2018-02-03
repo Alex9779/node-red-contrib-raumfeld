@@ -174,7 +174,7 @@
 
 
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld room play playlist',{
+    RED.nodes.registerType('raumfeld room load playlist',{
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
@@ -186,12 +186,16 @@
         outputs:0,
         icon: "file.png",
         label: function() {
-            return this.name || "raumfeld room play playlist";
+            return this.name || (this.roomName ?
+                                 this.playlist ?
+                                 "'" + this.roomName + "' load '" + this.playlist + "'"
+                                 : "'" + this.roomName + "' load playlist"
+                                 : "raumfeld room load playlist");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld room play playlist">
+<script type="text/x-red" data-template-name="raumfeld room load playlist">
     <div class="form-row">
         <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
         <input type="text" id="node-input-roomName" placeholder="Room name">
@@ -208,6 +212,6 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld room play playlist">
+<script type="text/x-red" data-help-name="raumfeld room load playlist">
     <p>FILL ME!</p>
 </script>
