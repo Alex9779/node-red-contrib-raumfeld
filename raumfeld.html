@@ -2,7 +2,7 @@
     RED.nodes.registerType('raumfeld raumkernel',{
         category: 'config',
         defaults: {
-            raumfeldHost: {value:"0.0.0.0", required: true},
+            raumfeldHost: {value: "0.0.0.0", required: true, validate: RED.validators.regex(/^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$/)},
         },
         label: function() {
             return this.raumfeldHost == "0.0.0.0" ? "Bonjour discovery" : this.raumfeldHost;
@@ -24,9 +24,9 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
-            raumkernel: {type:"raumfeld raumkernel", required: true},
+            raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
-            volume: {value: ""},
+            volume: {value: "", validate: RED.validators.regex(/^(\s*|[1-9][0-9]?|100)$/)},
             unmute: {value: false},
             name: {value: ""}
         },
@@ -80,7 +80,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
-            raumkernel: {type:"raumfeld raumkernel", required: true},
+            raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
             mute: {value: false},
             name: {value: ""}
@@ -130,7 +130,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
-            raumkernel: {type:"raumfeld raumkernel", required: true},
+            raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
             mute: {value: false},
             name: {value: ""}
@@ -180,7 +180,7 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
-            raumkernel: {type:"raumfeld raumkernel", required: true},
+            raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
             name: {value: ""}
         },
@@ -223,10 +223,10 @@
         category: 'raumfeld',
         color: '#a6bbcf',
         defaults: {
-            raumkernel: {type:"raumfeld raumkernel", required: true},
+            raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
             playlist: {value: ""},
-            volume: {volume: ""},
+            volume: {volume: "", validate: RED.validators.regex(/^(\s*|[1-9][0-9]?|100)$/)},
             name: {value: ""}
         },
         inputs:1,
