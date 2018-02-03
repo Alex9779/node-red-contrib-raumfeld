@@ -22,7 +22,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('raumfeld set room volume',{
         category: 'raumfeld',
-        color: '#a6bbcf',
+        color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
@@ -32,7 +32,7 @@
         },
         inputs:1,
         outputs:0,
-        icon: "file.png",
+        icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
                                 (this.volume ? "'" + this.roomName + "' volume to " + this.volume : "'" + this.roomName + "' volume")
@@ -78,7 +78,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('raumfeld room volume changed',{
         category: 'raumfeld',
-        color: '#a6bbcf',
+        color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
@@ -87,7 +87,7 @@
         },
         inputs:0,
         outputs:1,
-        icon: "file.png",
+        icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
                                 "'" + this.roomName + "' volume changed"
@@ -128,7 +128,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('raumfeld set room mute',{
         category: 'raumfeld',
-        color: '#a6bbcf',
+        color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
@@ -137,7 +137,7 @@
         },
         inputs:1,
         outputs:0,
-        icon: "file.png",
+        icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
                                 this.roomName + "' mute"
@@ -178,7 +178,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('raumfeld room mute changed',{
         category: 'raumfeld',
-        color: '#a6bbcf',
+        color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
@@ -186,7 +186,7 @@
         },
         inputs:0,
         outputs:1,
-        icon: "file.png",
+        icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
                                 "'" + this.roomName + "' mute changed"
@@ -221,7 +221,7 @@
 <script type="text/javascript">
     RED.nodes.registerType('raumfeld room load playlist',{
         category: 'raumfeld',
-        color: '#a6bbcf',
+        color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld raumkernel", required: true},
             roomName: {value: ""},
@@ -231,7 +231,7 @@
         },
         inputs:1,
         outputs:0,
-        icon: "file.png",
+        icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
                                  this.playlist ?
