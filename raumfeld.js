@@ -171,15 +171,19 @@ module.exports = function(RED) {
 
                 if (!mediaRendererVirtual) {
                     mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
-                       zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
-                            mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(roomName);
-                            mediaRendererVirtual.loadPlaylist(playlist);
-                        });
+                        setTimeout(function() {
+                            zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
+                                mediaRendererVirtual = deviceManager.getVirtualMediaRenderer(roomName);
+                                mediaRendererVirtual.loadPlaylist(playlist);
+                            });
+                        }, 1000);
                      });
                 }
                 else {
                     mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
-                        mediaRendererVirtual.loadPlaylist(playlist);
+                        setTimeout(function() {
+                            mediaRendererVirtual.loadPlaylist(playlist);
+                        }, 1000);
                     });
                 }
             }
