@@ -23,9 +23,6 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var volume = config.volume || msg.volume || msg.payload;
 
-            msg.roomName = roomName;
-            msg.volume = volume;
-
             var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
             var mediaRendererUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
@@ -91,9 +88,6 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var mute = config.mute || msg.mute || msg.payload;
 
-            msg.roomName = roomName;
-            msg.mute = mute;
-
             var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
             var mediaRendererUdn = zoneManager.getZoneUDNFromRoomUDN(roomUdn);
@@ -142,9 +136,6 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var playlist = config.playlist || msg.playlist || msg.payload;
             var volume = config.volume || msg.volume;
-
-            msg.roomName = roomName;
-            msg.playlist = playlist;
 
             var room = zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
