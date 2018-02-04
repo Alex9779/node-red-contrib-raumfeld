@@ -272,3 +272,46 @@
 <script type="text/x-red" data-help-name="raumfeld room load playlist">
     <p>FILL ME!</p>
 </script>
+
+
+
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld room title changed',{
+        category: 'raumfeld',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld raumkernel", required: true},
+            roomName: {value: "", required: true},
+            name: {value: ""}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                "'" + this.roomName + "' title changed"
+                                : "raumfeld room title changed");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld room title changed">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="icon-tag"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="icon-tag"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld room title changed">
+    <p>FILL ME!</p>
+</script>
