@@ -67,26 +67,16 @@
     <p>Monitors a room for changing volume.</p>
 
     <h3>Outputs</h3>
-        <ol class="node-ports">
-            <li>Standard output
-                <dl class="message-properties">
-                    <dt>payload <span class="property-type">string</span></dt>
-                    <dd>the value of the volume.</dd>
-                </dl>
-                <dl class="message-properties">
-                    <dt>roomname <span class="property-type">string</span></dt>
-                    <dd>the name of the room the volume change occurred.</dd>
-                </dl>
-                <dl class="message-properties">
-                    <dt>oldVolume <span class="property-type">string</span></dt>
-                    <dd>the value of the old volume.</dd>
-                </dl>
-                <dl class="message-properties">
-                    <dt>newValue <span class="property-type">string</span></dt>
-                    <dd>the value of the new volume. (Equal to <code>msg.payload</code>)</dd>
-                </dl>
-            </li>
-        </ol>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the value of the volume.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the volume change occurred.</dd>
+            <dt>oldVolume <span class="property-type">string</span></dt>
+            <dd>the value of the old volume.</dd>
+            <dt>newValue <span class="property-type">string</span></dt>
+            <dd>the value of the new volume. (Equal to <code>msg.payload</code>)</dd>
+        </dl>
 
     <h3>Details</h3>
         <p>
@@ -135,7 +125,19 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room mute changed">
-    <p>FILL ME!</p>
+    <p>Monitors a room for changing mute.</p>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the value of the mute. <code>"0"</code> for not muted, <code>"1"</code> for muted.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the mute change occurred.</dd>
+            <dt>oldMute <span class="property-type">string</span></dt>
+            <dd>the value of the old mute.</dd>
+            <dt>newMute <span class="property-type">string</span></dt>
+            <dd>the value of the new mute. (Equal to <code>msg.payload</code>)</dd>
+        </dl>
 </script>
 
 
@@ -178,7 +180,19 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room title changed">
-    <p>FILL ME!</p>
+    <p>Monitors a room for changing media title.</p>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the title of the current media item.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the title change occurred.</dd>
+            <dt>title <span class="property-type">string</span></dt>
+            <dd>the title of the current media item. (Euqal to <code>msg.payload</code></dd>
+            <dt>parentId <span class="property-type">string</span></dt>
+            <dd>the path of the media item's parent item.</dd>
+        </dl>
 </script>
 
 
@@ -221,7 +235,15 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room is playing">
-    <p>FILL ME!</p>
+    <p>Monitors a room for playing.</p>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">boolean</span></dt>
+            <dd><code>true</code> if the room is playing, <code>false</code> if not.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the title change occurred.</dd>
+        </dl>
 </script>
 
 
@@ -277,7 +299,17 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld set room volume">
-    <p>FILL ME!</p>
+    <p>Sets the volume in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the value of the volume to set. Must be between <code>0</code> and <code>100</code></dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to set the volume.</dd>
+            <dt class="optional">unmute <span class="property-type">boolean</span></dt>
+            <dd>unmute the room if it is muted. Unmuting will happen AFTER the new volume has been set!</dd>
+        </dl>
 </script>
 
 
@@ -327,7 +359,15 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld set room mute">
-    <p>FILL ME!</p>
+    <p>Sets the mute state in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">boolean</span></dt>
+            <dd>the value of the mute state to set.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to set the volume.</dd>
+        </dl>
 </script>
 
 
@@ -391,5 +431,23 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room load playlist">
-    <p>FILL ME!</p>
+    <p>Loads a playlist in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">boolean</span></dt>
+            <dd>the name of the playlist to load.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to load the playlist.</dd>
+            <dt class="optional">volume <span class="property-type">string</span></dt>
+            <dd>the volume to set in the room. The volume is set before the playlist is loaded!</dd>
+            <dt class="optional">overrideVolume <span class="property-type">boolean</span></dt>
+            <dd>set to override the volume in the room is already playing the selected playlist.</dd>
+        </dl>
+
+    <h3>Details</h3>
+        <p>
+            First the whole system is checked if the selected playlist is already being played in a zone.
+            If that is true then the selected room is added to that zone.
+        </p>
 </script>
