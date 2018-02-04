@@ -156,6 +156,7 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var playlist = config.playlist || msg.playlist || msg.payload;
             var volume = config.volume || msg.volume;
+            var overrideVolume = config.volume || msg.overrideVolume;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
@@ -168,7 +169,7 @@ module.exports = function(RED) {
                         && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
 
-                    if (volume) {
+                    if (overrideVolume && volume) {
                         mediaRendererVirtual.setRoomVolume(roomUdn, volume)
                     }
 
@@ -179,7 +180,7 @@ module.exports = function(RED) {
                          && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
 
-                    if (volume) {
+                    if (overrideVolume && volume) {
                         mediaRendererVirtual.setRoomVolume(roomUdn, volume)
                     }
                 }
