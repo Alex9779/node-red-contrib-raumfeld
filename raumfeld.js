@@ -35,7 +35,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var volume = config.volume || msg.volume || msg.payload;
+            var volume = config.volume || msg.payload;
             var unmute = config.unmute || msg.unmute;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
@@ -105,7 +105,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var mute = config.mute || msg.mute || msg.payload;
+            var mute = config.mute || msg.payload;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
