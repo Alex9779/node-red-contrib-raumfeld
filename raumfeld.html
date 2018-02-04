@@ -64,7 +64,35 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld room volume changed">
-    <p>FILL ME!</p>
+    <p>Monitors a room for changing volume.</p>
+
+    <h3>Outputs</h3>
+        <ol class="node-ports">
+            <li>Standard output
+                <dl class="message-properties">
+                    <dt>payload <span class="property-type">string</span></dt>
+                    <dd>the value of the volume.</dd>
+                </dl>
+                <dl class="message-properties">
+                    <dt>roomname <span class="property-type">string</span></dt>
+                    <dd>the name of the room the volume change occurred.</dd>
+                </dl>
+                <dl class="message-properties">
+                    <dt>oldVolume <span class="property-type">string</span></dt>
+                    <dd>the value of the old volume.</dd>
+                </dl>
+                <dl class="message-properties">
+                    <dt>newValue <span class="property-type">string</span></dt>
+                    <dd>the value of the new volume. (Equal to <code>msg.payload</code>)</dd>
+                </dl>
+            </li>
+        </ol>
+
+    <h3>Details</h3>
+        <p>
+            If the node is set to react on mute/unmute then it will report a volume of <code>"0"</code>
+            if the room got muted.
+        </p>
 </script>
 
 
