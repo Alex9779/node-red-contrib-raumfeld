@@ -190,8 +190,7 @@ module.exports = function(RED) {
                 var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                 if (!mediaRendererVirtual) {
-                    mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
-                        setTimeout(function() {
+                    mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
                             zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
                                 mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
@@ -201,18 +200,15 @@ module.exports = function(RED) {
 
                                 mediaRendererVirtual.loadPlaylist(playlist);
                             });
-                        }, 1000);
                      });
                 }
                 else {
-                    mediaRendererVirtual.leaveStandby(roomUdn).then(function() {
-                        setTimeout(function() {
+                    mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
                             if (volume) {
                                 mediaRendererVirtual.setRoomVolume(roomUdn, volume)
                             }
 
                             mediaRendererVirtual.loadPlaylist(playlist);
-                        }, 1000);
                     });
                 }
             }

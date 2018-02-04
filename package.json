@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "node-raumkernel": "^1.2.13"
+    "node-raumkernel": "^1.2.15"
   },
   "node-red": {
     "nodes": {
