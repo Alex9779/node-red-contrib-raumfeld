@@ -1,6 +1,8 @@
 'use strict';
 var RaumkernelLib = require('node-raumkernel');
 
+const MYPLAYLISTS = "0/Playlists/MyPlaylists/";
+
 module.exports = function(RED) {
     function RaumfeldRaumkernelNode(config) {
         RED.nodes.createNode(this, config);
@@ -164,7 +166,7 @@ module.exports = function(RED) {
             var alreadyPlaying = false;
 
             node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + node.raumkernelNode.raumkernel.encodeString(playlist)
+                if (mediaRendererVirtual.mediaOriginData.containerId == MYPLAYLISTS + node.raumkernelNode.raumkernel.encodeString(playlist)
                         && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
                         && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
@@ -175,7 +177,7 @@ module.exports = function(RED) {
 
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
                 }
-                else if (mediaRendererVirtual.mediaOriginData.containerId == "0/Playlists/MyPlaylists/" + node.raumkernelNode.raumkernel.encodeString(playlist)
+                else if (mediaRendererVirtual.mediaOriginData.containerId == MYPLAYLISTS + node.raumkernelNode.raumkernel.encodeString(playlist)
                          && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
                          && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
