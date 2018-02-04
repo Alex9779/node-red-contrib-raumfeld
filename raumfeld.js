@@ -1,4 +1,5 @@
 'use strict';
+var RaumkernelLib = require('node-raumkernel');
 
 module.exports = function(RED) {
     function RaumfeldRaumkernelNode(config) {
@@ -7,7 +8,6 @@ module.exports = function(RED) {
 
         node.raumfeldHost = config.raumfeldHost;
 
-        var RaumkernelLib = require('node-raumkernel');
         node.raumkernel = new RaumkernelLib.Raumkernel();
 
         node.raumkernel.settings.raumfeldHost = node.raumfeldHost;
