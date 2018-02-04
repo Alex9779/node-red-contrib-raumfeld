@@ -157,9 +157,9 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var playlist = config.playlist || msg.playlist || msg.payload;
+            var playlist = config.playlist || msg.payload;
             var volume = config.volume || msg.volume;
-            var overrideVolume = config.volume || msg.overrideVolume;
+            var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
