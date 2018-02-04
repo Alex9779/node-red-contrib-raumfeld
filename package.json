@@ -1,15 +1,15 @@
 {
   "name": "node-red-contrib-raumfeld",
   "version": "1.0.0",
-  "description": "",
-  "main": "raumfeld.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "MIT",
+  "description": "Control a Teufel Raumfeld system",
+  "author": "Alexander Leisentritt",
+  "license": "ISC",
   "dependencies": {
     "node-raumkernel": "^1.2.15"
+  },
+  "repository"   : {
+		"type" : "git",
+		"url"  : "https://github.com/alex9779/node-red-contrib-raumfeld.git"
   },
   "node-red": {
     "nodes": {
