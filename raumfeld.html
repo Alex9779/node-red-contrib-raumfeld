@@ -264,8 +264,10 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                (this.volume ? "'" + this.roomName + "' volume to " + this.volume : "'" + this.roomName + "' volume")
-                                : "raumfeld set room volume");
+                                 this.volume ?
+                                 "'" + this.roomName + "' set volume to " + this.volume
+                                 : "'" + this.roomName + "' set volume"
+                                 : "raumfeld set room volume");
         }
     });
 </script>
@@ -329,8 +331,8 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                this.roomName + "' mute"
-                                : "raumfeld set room mute");
+                                 "'" + this.roomName + "' set mute"
+                                 : "raumfeld set room mute");
         }
     });
 </script>
