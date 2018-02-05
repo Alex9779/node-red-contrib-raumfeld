@@ -7,9 +7,9 @@
   "dependencies": {
     "node-raumkernel": "^1.2.15"
   },
-  "repository"   : {
-		"type" : "git",
-		"url"  : "https://github.com/alex9779/node-red-contrib-raumfeld.git"
+  "repository": {
+		"type": "git",
+		"url": "https://github.com/alex9779/node-red-contrib-raumfeld.git"
   },
   "node-red": {
     "nodes": {
