@@ -128,7 +128,7 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld room title changed", RaumfeldRoomTitleChanged);
 
-    function RaumfeldRoomIsPlaying(config) {
+    function RaumfeldRoomPlayStateChanged(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -160,7 +160,7 @@ module.exports = function(RED) {
             node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
-    RED.nodes.registerType("raumfeld room is playing", RaumfeldRoomIsPlaying);
+    RED.nodes.registerType("raumfeld room play state changed", RaumfeldRoomPlayStateChanged);
 
     function RaumfeldRoomSetVolumeNode(config) {
         RED.nodes.createNode(this, config);

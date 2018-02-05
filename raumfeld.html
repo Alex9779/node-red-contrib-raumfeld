@@ -198,7 +198,7 @@
 
 
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld room is playing',{
+    RED.nodes.registerType('raumfeld room play state changed',{
         category: 'raumfeld input',
         color: '#CBCBCB',
         defaults: {
@@ -211,13 +211,13 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                "'" + this.roomName + "' is playing"
-                                : "raumfeld room is playing");
+                                "'" + this.roomName + "' play state changed"
+                                : "raumfeld room play state changed");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld room is playing">
+<script type="text/x-red" data-template-name="raumfeld room play state changed">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -234,8 +234,8 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld room is playing">
-    <p>Monitors a room for playing.</p>
+<script type="text/x-red" data-help-name="raumfeld room play state changed">
+    <p>Monitors a room for play state changes.</p>
 
     <h3>Outputs</h3>
         <dl class="message-properties">
