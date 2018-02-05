@@ -243,8 +243,8 @@ module.exports = function(RED) {
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
                 }
                 else if (mediaRendererVirtual.mediaOriginData.containerId == MYPLAYLISTS + node.raumkernelNode.raumkernel.encodeString(playlist)
-                         && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
-                         && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                            && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
+                            && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
                     alreadyPlaying = true;
 
                     if (overrideVolume && volume) {
