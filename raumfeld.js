@@ -205,7 +205,7 @@ module.exports = function(RED) {
             var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
 
             if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
 
                 mediaRendererVirtual.setRoomMute(roomUdn, mute);
             }
