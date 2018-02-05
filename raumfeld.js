@@ -170,7 +170,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var volume = config.volume || msg.payload;
+            var volume = config.volume || msg.volume || msg.payload;
             var unmute = config.unmute || Boolean(msg.unmute);
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
@@ -198,7 +198,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var mute = Boolean(msg.payload);
+            var mute = Boolean(msg.mute) || Boolean(msg.payload);
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
@@ -221,7 +221,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var playlist = config.playlist || msg.payload;
+            var playlist = config.playlist || msg.playlist || msg.payload;
             var volume = config.volume || msg.volume;
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
@@ -289,7 +289,7 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on('input', function(msg) {
-            var roomName = config.roomName || msg.payload;
+            var roomName = config.roomName || msg.roomName || msg.payload;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;

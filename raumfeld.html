@@ -305,7 +305,9 @@
 
     <h3>Inputs</h3>
         <dl class="message-properties">
-            <dt>payload <span class="property-type">string</span></dt>
+            <dt>payload <span class="property-type">number</span></dt>
+            <dd>the value of the volume to set. Must be between <code>0</code> and <code>100</code></dd>
+            <dt class="optional">volume <span class="property-type">number</span></dt>
             <dd>the value of the volume to set. Must be between <code>0</code> and <code>100</code></dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
             <dd>the room where to set the volume.</dd>
@@ -360,6 +362,8 @@
     <h3>Inputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">boolean</span></dt>
+            <dd>the value of the mute state to set.</dd>
+            <dt class="optional">mute <span class="property-type">boolean</span></dt>
             <dd>the value of the mute state to set.</dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
             <dd>the room where to set the volume.</dd>
@@ -431,11 +435,13 @@
 
     <h3>Inputs</h3>
         <dl class="message-properties">
-            <dt>payload <span class="property-type">boolean</span></dt>
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the name of the playlist to load.</dd>
+            <dt class="optional">playlist <span class="property-type">string</span></dt>
             <dd>the name of the playlist to load.</dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
             <dd>the room where to load the playlist.</dd>
-            <dt class="optional">volume <span class="property-type">string</span></dt>
+            <dt class="optional">volume <span class="property-type">number</span></dt>
             <dd>the volume to set in the room. The volume is set before the playlist is loaded!</dd>
             <dt class="optional">overrideVolume <span class="property-type">boolean</span></dt>
             <dd>set to override the volume in the room is already playing the selected playlist.</dd>
@@ -493,6 +499,8 @@
     <h3>Inputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">string</span></dt>
+            <dd>the room to drop from its zone.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
             <dd>the room to drop from its zone.</dd>
         </dl>
 </script>
