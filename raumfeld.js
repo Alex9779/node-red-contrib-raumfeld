@@ -27,7 +27,7 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld raumkernel", RaumfeldRaumkernelNode);
 
-    function RaumfeldSetRoomVolumeNode(config) {
+    function RaumfeldRoomSetVolumeNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -53,7 +53,7 @@ module.exports = function(RED) {
             }
         });
     }
-    RED.nodes.registerType("raumfeld set room volume", RaumfeldSetRoomVolumeNode);
+    RED.nodes.registerType("raumfeld room set volume", RaumfeldRoomSetVolumeNode);
 
     function RaumfeldRoomVolumeChanged(config) {
         RED.nodes.createNode(this, config);
@@ -97,7 +97,7 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld room volume changed", RaumfeldRoomVolumeChanged);
 
-    function RaumfeldSetRoomMuteNode(config) {
+    function RaumfeldRoomSetMuteNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -118,7 +118,7 @@ module.exports = function(RED) {
             }
         });
     }
-    RED.nodes.registerType("raumfeld set room mute", RaumfeldSetRoomMuteNode);
+    RED.nodes.registerType("raumfeld room set mute", RaumfeldRoomSetMuteNode);
 
     function RaumfeldRoomMuteChanged(config) {
         RED.nodes.createNode(this, config);

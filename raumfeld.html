@@ -249,7 +249,7 @@
 
 
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld set room volume',{
+    RED.nodes.registerType('raumfeld room set volume',{
         category: 'raumfeld output',
         color: '#CBCBCB',
         defaults: {
@@ -267,12 +267,12 @@
                                  this.volume ?
                                  "'" + this.roomName + "' set volume to " + this.volume
                                  : "'" + this.roomName + "' set volume"
-                                 : "raumfeld set room volume");
+                                 : "raumfeld room set volume");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld set room volume">
+<script type="text/x-red" data-template-name="raumfeld room set volume">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -300,7 +300,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld set room volume">
+<script type="text/x-red" data-help-name="raumfeld room set volume">
     <p>Sets the volume in a room.</p>
 
     <h3>Inputs</h3>
@@ -317,7 +317,7 @@
 
 
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld set room mute',{
+    RED.nodes.registerType('raumfeld room set mute',{
         category: 'raumfeld output',
         color: '#CBCBCB',
         defaults: {
@@ -332,12 +332,12 @@
         label: function() {
             return this.name || (this.roomName ?
                                  "'" + this.roomName + "' set mute"
-                                 : "raumfeld set room mute");
+                                 : "raumfeld room set mute");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld set room mute">
+<script type="text/x-red" data-template-name="raumfeld room set mute">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -360,7 +360,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld set room mute">
+<script type="text/x-red" data-help-name="raumfeld room set mute">
     <p>Sets the mute state in a room.</p>
 
     <h3>Inputs</h3>
