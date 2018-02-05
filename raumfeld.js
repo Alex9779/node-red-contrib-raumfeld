@@ -198,7 +198,7 @@ module.exports = function(RED) {
 
         node.on('input', function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var mute = config.mute || msg.payload;
+            var mute = Boolean(msg.payload);
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
