@@ -328,4 +328,37 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room get media title", RaumfeldRoomGetMediaTitle);
+
+    function RaumfeldRoomGetPlayState(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName || msg.payload;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+
+            var msg = {};
+
+            msg.roomName = roomName;
+
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
+
+                if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                    msg.payload = true;
+                }
+                else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT") {
+                    msg.payload = false;
+                }
+
+                if (msg.hasOwnProperty("payload")) node.send(msg);
+            }
+        });
+    }
+    RED.nodes.registerType("raumfeld room get play state", RaumfeldRoomGetPlayState);
 }
