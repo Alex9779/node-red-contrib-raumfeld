@@ -298,4 +298,34 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room drop from zone", RaumfeldRoomDropFromZone);
+
+    function RaumfeldRoomGetMediaTitle(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName || msg.payload;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+
+            var msg = {};
+
+            msg.roomName = roomName;
+            msg.payload = "No media!";
+
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
+
+                msg.payload = mediaRendererVirtual.currentMediaItemData.title;
+                msg.parentId = mediaRendererVirtual.currentMediaItemData.parentId;
+            }
+
+            node.send(msg);
+        });
+    }
+    RED.nodes.registerType("raumfeld room get media title", RaumfeldRoomGetMediaTitle);
 }
