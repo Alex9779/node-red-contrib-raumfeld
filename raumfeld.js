@@ -259,14 +259,14 @@ module.exports = function(RED) {
 
                 if (!mediaRendererVirtual) {
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
-                                mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+                        mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-                                if (volume) {
-                                    mediaRendererVirtual.setRoomVolume(roomUdn, volume)
-                                }
+                        if (volume) {
+                            mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                        }
 
-                                mediaRendererVirtual.loadPlaylist(playlist);
-                            });
+                        mediaRendererVirtual.loadPlaylist(playlist);
+                    });
                 }
                 else {
                     mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
@@ -281,4 +281,21 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room load playlist", RaumfeldRoomLoadPlaylist);
+
+    function RaumfeldRoomDropFromZone(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.payload;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+
+            node.raumkernelNode.zoneManager.dropRoomFromZone(roomUdn);
+        });
+    }
+    RED.nodes.registerType("raumfeld room drop from zone", RaumfeldRoomDropFromZone);
 }
