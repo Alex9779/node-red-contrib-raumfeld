@@ -27,34 +27,6 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld raumkernel", RaumfeldRaumkernelNode);
 
-    function RaumfeldRoomSetVolumeNode(config) {
-        RED.nodes.createNode(this, config);
-        var node = this;
-
-        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
-
-        node.on('input', function(msg) {
-            var roomName = config.roomName || msg.roomName;
-            var volume = config.volume || msg.payload;
-            var unmute = config.unmute || msg.unmute;
-
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
-
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtualUdn = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
-
-                mediaRendererVirtualUdn.setRoomVolume(roomUdn, volume).then(function() {
-                    if (unmute) {
-                        mediaRenderer.setRoomMute(roomUdn, 0);
-                    }
-                });
-            }
-        });
-    }
-    RED.nodes.registerType("raumfeld room set volume", RaumfeldRoomSetVolumeNode);
-
     function RaumfeldRoomVolumeChanged(config) {
         RED.nodes.createNode(this, config);
         var node = this;
@@ -97,29 +69,6 @@ module.exports = function(RED) {
     }
     RED.nodes.registerType("raumfeld room volume changed", RaumfeldRoomVolumeChanged);
 
-    function RaumfeldRoomSetMuteNode(config) {
-        RED.nodes.createNode(this, config);
-        var node = this;
-
-        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
-
-        node.on('input', function(msg) {
-            var roomName = config.roomName || msg.roomName;
-            var mute = config.mute || msg.payload;
-
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
-
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
-
-                mediaRendererVirtual.setRoomMute(roomUdn, mute);
-            }
-        });
-    }
-    RED.nodes.registerType("raumfeld room set mute", RaumfeldRoomSetMuteNode);
-
     function RaumfeldRoomMuteChanged(config) {
         RED.nodes.createNode(this, config);
         var node = this;
@@ -148,6 +97,121 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room mute changed", RaumfeldRoomMuteChanged);
+
+    function RaumfeldRoomTitleChanged(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        var roomName = config.roomName;
+
+        function handleEvent(_mediaRenderer, _mediaItemData) {
+            var msg = {};
+
+            msg.roomName = roomName;
+
+            if (_mediaRenderer.roomName().search(roomName) >= 0) {
+                msg.payload = _mediaItemData.title;
+                msg.title = _mediaItemData.title;
+                msg.parentId = _mediaItemData.parentId;
+
+                node.send(msg);
+            }
+        }
+
+        node.raumkernelNode.raumkernel.on("rendererMediaItemDataChanged", handleEvent);
+
+        node.on('close', function() {
+            node.raumkernelNode.removeListener("rendererMediaItemDataChanged", handleEvent);
+        });
+    }
+    RED.nodes.registerType("raumfeld room title changed", RaumfeldRoomTitleChanged);
+
+    function RaumfeldRoomIsPlaying(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        var roomName = config.roomName;
+
+        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
+            var msg = {};
+            msg.roomName = roomName;
+
+            if (!(_mediaRenderer instanceof RaumkernelLib.MediaRendererRaumfeldVirtual)) {
+                if (_mediaRenderer.roomName() == roomName && _key == "TransportState") {
+                    if (_newValue == "PLAYING") {
+                        msg.payload = true;
+                    }
+                    else if (_newValue == "NO_MEDIA_PRESENT") {
+                        msg.payload = false;
+                    }
+
+                    if (msg.hasOwnProperty("payload")) node.send(msg);
+                }
+            }
+        }
+
+        node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
+
+        node.on('close', function() {
+            node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
+        });
+    }
+    RED.nodes.registerType("raumfeld room is playing", RaumfeldRoomIsPlaying);
+
+    function RaumfeldRoomSetVolumeNode(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName;
+            var volume = config.volume || msg.payload;
+            var unmute = config.unmute || msg.unmute;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtualUdn = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
+
+                mediaRendererVirtualUdn.setRoomVolume(roomUdn, volume).then(function() {
+                    if (unmute) {
+                        mediaRenderer.setRoomMute(roomUdn, 0);
+                    }
+                });
+            }
+        });
+    }
+    RED.nodes.registerType("raumfeld room set volume", RaumfeldRoomSetVolumeNode);
+
+    function RaumfeldRoomSetMuteNode(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName;
+            var mute = config.mute || msg.payload;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+
+            if (mediaRendererVirtualUdn) {
+                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererUdn);
+
+                mediaRendererVirtual.setRoomMute(roomUdn, mute);
+            }
+        });
+    }
+    RED.nodes.registerType("raumfeld room set mute", RaumfeldRoomSetMuteNode);
 
     function RaumfeldRoomLoadPlaylist(config) {
         RED.nodes.createNode(this, config);
@@ -219,68 +283,4 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room load playlist", RaumfeldRoomLoadPlaylist);
-
-    function RaumfeldRoomTitleChanged(config) {
-        RED.nodes.createNode(this, config);
-        var node = this;
-
-        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
-
-        var roomName = config.roomName;
-
-        function handleEvent(_mediaRenderer, _mediaItemData) {
-            var msg = {};
-
-            msg.roomName = roomName;
-
-            if (_mediaRenderer.roomName().search(roomName) >= 0) {
-                msg.payload = _mediaItemData.title;
-                msg.title = _mediaItemData.title;
-                msg.parentId = _mediaItemData.parentId;
-
-                node.send(msg);
-            }
-        }
-
-        node.raumkernelNode.raumkernel.on("rendererMediaItemDataChanged", handleEvent);
-
-        node.on('close', function() {
-            node.raumkernelNode.removeListener("rendererMediaItemDataChanged", handleEvent);
-        });
-    }
-    RED.nodes.registerType("raumfeld room title changed", RaumfeldRoomTitleChanged);
-
-    function RaumfeldRoomIsPlaying(config) {
-        RED.nodes.createNode(this, config);
-        var node = this;
-
-        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
-
-        var roomName = config.roomName;
-
-        function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
-            var msg = {};
-            msg.roomName = roomName;
-
-            if (!(_mediaRenderer instanceof RaumkernelLib.MediaRendererRaumfeldVirtual)) {
-                if (_mediaRenderer.roomName() == roomName && _key == "TransportState") {
-                    if (_newValue == "PLAYING") {
-                        msg.payload = true;
-                    }
-                    else if (_newValue == "NO_MEDIA_PRESENT") {
-                        msg.payload = false;
-                    }
-
-                    if (msg.hasOwnProperty("payload")) node.send(msg);
-                }
-            }
-        }
-
-        node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
-
-        node.on('close', function() {
-            node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
-        });
-    }
-    RED.nodes.registerType("raumfeld room is playing", RaumfeldRoomIsPlaying);
 }
