@@ -4,6 +4,9 @@
   "description": "Control a Teufel Raumfeld system",
   "author": "Alexander Leisentritt",
   "license": "ISC",
+  "keywords": [
+    "node-red", "teufel", "streaming", "raumfeld"
+  ],
   "dependencies": {
     "node-raumkernel": "^1.2.15",
     "xml2js": "^0.4.19"
