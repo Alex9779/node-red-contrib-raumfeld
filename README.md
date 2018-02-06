@@ -7,7 +7,7 @@ Monitor and control your [Teufel Streaming](https://www.teufel.de/) (formerly kn
 ### Overview
 node-red-contrib-raumfeld provides a bunch of nodes to control certain aspects of your Teufel Streaming (formerly known as Raumfeld) system.
 
-The reason for development was to be able to control the system with Apple's Home app in connection with [homebridge](https://github.com/nfarina/homebridge), [homebdirge-mqtt](https://github.com/cflurin/homebridge-mqtt), [Mosquitto](https://mosquitto.org/) and of course [Node-RED](https://nodered.org/) which I already use to control my other home automation devices.
+The reason for development was to be able to control the system with Apple's Home app in connection with [homebridge](https://github.com/nfarina/homebridge), [homebridge-mqtt](https://github.com/cflurin/homebridge-mqtt), [Mosquitto](https://mosquitto.org/) and of course [Node-RED](https://nodered.org/) which I already use to control my other home automation devices.
 
 ![Sample Node-RED setup - Home control](https://github.com/alex9779/node-red-contrib-raumfeld/raw/master/docs/flow1-1.png)
 
