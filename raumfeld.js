@@ -1,6 +1,6 @@
-'use strict';
-var RaumkernelLib = require('node-raumkernel');
-var parseString = require('xml2js').parseString;
+"use strict";
+var RaumkernelLib = require("node-raumkernel");
+var parseString = require("xml2js").parseString;
 
 const MYPLAYLISTS = "0/Playlists/MyPlaylists/";
 
@@ -64,7 +64,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
-        node.on('close', function() {
+        node.on("close", function() {
             node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
@@ -93,7 +93,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
-        node.on('close', function() {
+        node.on("close", function() {
             node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
@@ -123,7 +123,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode.raumkernel.on("rendererMediaItemDataChanged", handleEvent);
 
-        node.on('close', function() {
+        node.on("close", function() {
             node.raumkernelNode.removeListener("rendererMediaItemDataChanged", handleEvent);
         });
     }
@@ -157,7 +157,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
-        node.on('close', function() {
+        node.on("close", function() {
             node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
@@ -169,7 +169,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName;
             var volume = config.volume || msg.volume || msg.payload;
             var unmute = config.unmute || Boolean(msg.unmute);
@@ -197,7 +197,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName;
             var mute = Boolean(msg.mute) || Boolean(msg.payload);
 
@@ -220,7 +220,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName;
             var playlist = config.playlist || msg.playlist || msg.payload;
             var volume = config.volume || msg.volume;
@@ -287,7 +287,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName;
             var favorite = config.favorite || msg.favorite || msg.payload;
             var volume = config.volume || msg.volume;
@@ -304,7 +304,7 @@ module.exports = function(RED) {
             var mediaServer = node.raumkernelNode.deviceManager.getRaumfeldMediaServer();
 
             mediaServer.browse("0/Favorites/MyFavorites").then(function(_data){
-                var parseString = require('xml2js').parseString;
+                var parseString = require("xml2js").parseString;
                 var xml = _data;
 
                 parseString(xml, function (err, result) {
@@ -428,7 +428,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
@@ -445,7 +445,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
@@ -475,7 +475,7 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        node.on('input', function(msg) {
+        node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
