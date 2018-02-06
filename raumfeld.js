@@ -229,15 +229,16 @@ module.exports = function(RED) {
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
 
+            var mediaRendererVirtual;
             var alreadyPlaying = false;
 
             var es = node.raumkernelNode.raumkernel.encodeString;
 
-            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                if (mediaRendererVirtual.currentMediaItemData) {
-                    if (mediaRendererVirtual.currentMediaItemData.containerId == MYPLAYLISTS + es(playlist)
-                            && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-
+            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                if (existingMediaRendererVirtual.currentMediaItemData) {
+                    if (existingMediaRendererVirtual.currentMediaItemData.containerId == MYPLAYLISTS + es(playlist)
+                            && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                        mediaRendererVirtual = existingMediaRendererVirtual;
                         alreadyPlaying = true;
                     }
                 }
@@ -253,8 +254,7 @@ module.exports = function(RED) {
                 }
             }
             else {
-            {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+                mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                 if (!mediaRendererVirtual) {
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
@@ -295,6 +295,8 @@ module.exports = function(RED) {
 
             var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
             var roomUdn = room.$.udn;
+
+            var mediaRendererVirtual;
             var favoriteXMLObject;
             var favoriteType;
             var alreadyPlaying = false;
@@ -329,11 +331,11 @@ module.exports = function(RED) {
                     if (favoriteXMLObject) {
                         switch (favoriteXMLObject["upnp:class"][0]) {
                             case "object.container.person.musicArtist":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                                    if (mediaRendererVirtual.currentMediaItemData) {
-                                        if (mediaRendererVirtual.currentMediaItemData.parentID.endsWith(es(favoriteXMLObject["upnp:artist"]["0"]) + "/AllTracks")
-                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                    if (existingMediaRendererVirtual.currentMediaItemData) {
+                                        if (existingMediaRendererVirtual.currentMediaItemData.parentID.endsWith(es(favoriteXMLObject["upnp:artist"]["0"]) + "/AllTracks")
+                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                            mediaRendererVirtual = existingMediaRendererVirtual;
                                             alreadyPlaying = true;
                                         }
                                     }
@@ -341,12 +343,12 @@ module.exports = function(RED) {
                                 break;
 
                             case "object.container.album.musicAlbum":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                                    if (mediaRendererVirtual.currentMediaItemData) {
-                                        if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
-                                                && mediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
-                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                    if (existingMediaRendererVirtual.currentMediaItemData) {
+                                        if (existingMediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                                && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                            mediaRendererVirtual = existingMediaRendererVirtual;
                                             alreadyPlaying = true;
                                         }
                                     }
@@ -354,13 +356,13 @@ module.exports = function(RED) {
                                 break;
 
                             case "object.item.audioItem.musicTrack":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                                    if (mediaRendererVirtual.currentMediaItemData) {
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                    if (existingMediaRendererVirtual.currentMediaItemData) {
                                         if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
-                                                && mediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
-                                                && mediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
-                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-
+                                                && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                                && existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                            mediaRendererVirtual = existingMediaRendererVirtual;
                                             alreadyPlaying = true;
                                         }
                                     }
@@ -368,11 +370,11 @@ module.exports = function(RED) {
                                 break;
 
                             case "object.item.audioItem.audioBroadcast.radio":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                                    if (mediaRendererVirtual.currentMediaItemData) {
-                                        if (mediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
-                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                    if (existingMediaRendererVirtual.currentMediaItemData) {
+                                        if (existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                            mediaRendererVirtual = existingMediaRendererVirtual;
                                             alreadyPlaying = true;
                                         }
                                     }
@@ -390,7 +392,7 @@ module.exports = function(RED) {
                             }
                         }
                         else {
-                            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+                            mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                             if (!mediaRendererVirtual) {
                                 node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
