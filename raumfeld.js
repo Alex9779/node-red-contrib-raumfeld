@@ -174,16 +174,13 @@ module.exports = function(RED) {
             var volume = config.volume || msg.volume || msg.payload;
             var unmute = config.unmute || Boolean(msg.unmute);
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
-
-                mediaRendererVirtual.setRoomVolume(roomUdn, volume).then(function() {
+            if (mediaRendererVirtual) {
+                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume).then(function() {
                     if (unmute) {
-                        mediaRenderer.setRoomMute(roomUdn, 0);
+                        mediaRenderer.setRoomMute(roomMediaRenderer.roomUdn(), 0);
                     }
                 });
             }
@@ -201,14 +198,11 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var mute = Boolean(msg.mute) || Boolean(msg.payload);
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
-
-                mediaRendererVirtual.setRoomMute(roomUdn, mute);
+            if (mediaRendererVirtual) {
+                mediaRendererVirtual.setRoomMute(roomMediaRenderer.roomUdn(), mute);
             }
         });
     }
@@ -226,8 +220,7 @@ module.exports = function(RED) {
             var volume = config.volume || msg.volume;
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
             var mediaRendererVirtual;
             var alreadyPlaying = false;
@@ -246,31 +239,31 @@ module.exports = function(RED) {
 
             if (alreadyPlaying)  {
                 if (overrideVolume && volume) {
-                    mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                    mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                 }
 
                 if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
-                    node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
+                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
                 }
             }
             else {
                 mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                 if (!mediaRendererVirtual) {
-                    node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
+                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), "", true).then(function() {
                         mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                         if (volume) {
-                            mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                            mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                         }
 
                         mediaRendererVirtual.loadPlaylist(playlist);
                     });
                 }
                 else {
-                    mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
+                    mediaRendererVirtual.leaveStandby(roomMediaRenderer.roomUdn(), true).then(function() {
                             if (volume) {
-                                mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                             }
 
                             mediaRendererVirtual.loadPlaylist(playlist);
@@ -293,8 +286,7 @@ module.exports = function(RED) {
             var volume = config.volume || msg.volume;
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
             var mediaRendererVirtual;
             var favoriteXMLObject;
@@ -384,31 +376,31 @@ module.exports = function(RED) {
 
                         if (alreadyPlaying)  {
                             if (overrideVolume && volume) {
-                                mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                             }
 
                             if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
                             }
                         }
                         else {
                             mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                             if (!mediaRendererVirtual) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), "", true).then(function() {
                                     mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                                     if (volume) {
-                                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                        mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                                     }
 
                                     mediaRendererVirtual.loadSingle(favoriteId);
                                 });
                             }
                             else {
-                                mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
+                                mediaRendererVirtual.leaveStandby(roomMediaRenderer.roomUdn(), true).then(function() {
                                         if (volume) {
-                                            mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                            mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
                                         }
 
                                         mediaRendererVirtual.loadSingle(favoriteId);
@@ -431,10 +423,9 @@ module.exports = function(RED) {
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
-            node.raumkernelNode.zoneManager.dropRoomFromZone(roomUdn);
+            node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn());
         });
     }
     RED.nodes.registerType("raumfeld room drop from zone", RaumfeldRoomDropFromZone);
@@ -448,18 +439,14 @@ module.exports = function(RED) {
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
             var msg = {};
 
             msg.roomName = roomName;
             msg.payload = "No media!";
 
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
-
+            if (mediaRendererVirtual) {
                 msg.payload = mediaRendererVirtual.currentMediaItemData.title;
                 msg.parentId = mediaRendererVirtual.currentMediaItemData.parentId;
             }
@@ -478,17 +465,13 @@ module.exports = function(RED) {
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
 
-            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
-            var roomUdn = room.$.udn;
-            var mediaRendererVirtualUdn = node.raumkernelNode.zoneManager.getZoneUDNFromRoomUDN(roomUdn);
+            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
             var msg = {};
 
             msg.roomName = roomName;
 
-            if (mediaRendererVirtualUdn) {
-                var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(mediaRendererVirtualUdn);
-
+            if (mediaRendererVirtual) {
                 if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                     msg.payload = true;
                 }
