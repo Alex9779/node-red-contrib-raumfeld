@@ -175,12 +175,11 @@ module.exports = function(RED) {
             var unmute = config.unmute || Boolean(msg.unmute);
 
             var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
-            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-            if (mediaRendererVirtual) {
-                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume).then(function() {
+            if (roomMediaRenderer) {
+                roomMediaRenderer.setVolume(volume).then(function() {
                     if (unmute) {
-                        mediaRenderer.setRoomMute(roomMediaRenderer.roomUdn(), 0);
+                        roomMediaRenderer.setMute(0);
                     }
                 });
             }
@@ -199,10 +198,9 @@ module.exports = function(RED) {
             var mute = Boolean(msg.mute) || Boolean(msg.payload);
 
             var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
-            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-            if (mediaRendererVirtual) {
-                mediaRendererVirtual.setRoomMute(roomMediaRenderer.roomUdn(), mute);
+            if (roomMediaRenderer) {
+                roomMediaRenderer.setMute(mute);
             }
         });
     }
@@ -239,7 +237,7 @@ module.exports = function(RED) {
 
             if (alreadyPlaying)  {
                 if (overrideVolume && volume) {
-                    mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                    roomMediaRenderer.setVolume(volume);
                 }
 
                 if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
@@ -254,16 +252,16 @@ module.exports = function(RED) {
                         mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                         if (volume) {
-                            mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                            roomMediaRenderer.setVolume(volume);
                         }
 
                         mediaRendererVirtual.loadPlaylist(playlist);
                     });
                 }
                 else {
-                    mediaRendererVirtual.leaveStandby(roomMediaRenderer.roomUdn(), true).then(function() {
+                    roomMediaRenderer.leaveStandby(true).then(function() {
                             if (volume) {
-                                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                                roomMediaRenderer.setVolume(volume);
                             }
 
                             mediaRendererVirtual.loadPlaylist(playlist);
@@ -376,7 +374,7 @@ module.exports = function(RED) {
 
                         if (alreadyPlaying)  {
                             if (overrideVolume && volume) {
-                                mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                                roomMediaRenderer.setVolume(volume);
                             }
 
                             if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
@@ -391,16 +389,16 @@ module.exports = function(RED) {
                                     mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
                                     if (volume) {
-                                        mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                                        roomMediaRenderer.setVolume(volume);
                                     }
 
                                     mediaRendererVirtual.loadSingle(favoriteId);
                                 });
                             }
                             else {
-                                mediaRendererVirtual.leaveStandby(roomMediaRenderer.roomUdn(), true).then(function() {
+                                roomMediaRenderer.leaveStandby(true).then(function() {
                                         if (volume) {
-                                            mediaRendererVirtual.setRoomVolume(roomMediaRenderer.roomUdn(), volume)
+                                            roomMediaRenderer.setVolume(volume);
                                         }
 
                                         mediaRendererVirtual.loadSingle(favoriteId);
