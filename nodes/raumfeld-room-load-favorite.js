@@ -109,7 +109,7 @@ module.exports = function(RED) {
                             }
 
                             if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn());
                             }
                         }
                         else {
