@@ -240,7 +240,7 @@ module.exports = function(RED) {
                     roomMediaRenderer.setVolume(volume);
                 }
 
-                if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
                 }
             }
@@ -377,7 +377,7 @@ module.exports = function(RED) {
                                 roomMediaRenderer.setVolume(volume);
                             }
 
-                            if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                            if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
                                 node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
                             }
                         }
