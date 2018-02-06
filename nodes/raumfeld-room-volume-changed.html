@@ -1,0 +1,65 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-volume-changed',{
+        category: 'raumfeld input',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: "", required: true},
+            mute: {value: false},
+            name: {value: ""}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                "'" + this.roomName + "' volume changed"
+                                : "raumfeld room volume changed");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-volume-changed">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-mute" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-mute" style="width: 70%;">React on mute/unmute?</label>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-volume-changed">
+    <p>Monitors a room for changing volume.</p>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the value of the volume.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the volume change occurred.</dd>
+            <dt>oldVolume <span class="property-type">string</span></dt>
+            <dd>the value of the old volume.</dd>
+            <dt>newValue <span class="property-type">string</span></dt>
+            <dd>the value of the new volume. (Equals <code>msg.payload</code>)</dd>
+        </dl>
+
+    <h3>Details</h3>
+        <p>
+            If the node is set to react on mute/unmute then it will report a volume of <code>"0"</code>
+            if the room got muted.
+        </p>
+</script>

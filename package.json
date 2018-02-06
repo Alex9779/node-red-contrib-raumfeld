@@ -14,7 +14,18 @@
   },
   "node-red": {
     "nodes": {
-      "raumfeld": "raumfeld.js"
+      "raumfeld raumkernel": "./nodes/raumfeld-raumkernel.js",
+      "raumfeld room drop from zone": "./nodes/raumfeld-room-drop-from-zone.js",
+      "raumfeld room get media title": "./nodes/raumfeld-room-get-media-title.js",
+      "raumfeld room get play state": "./nodes/raumfeld-room-get-play-state.js",
+      "raumfeld room load favorite": "./nodes/raumfeld-room-load-favorite.js",
+      "raumfeld room load playlist": "./nodes/raumfeld-room-load-playlist.js",
+      "raumfeld room mute changed": "./nodes/raumfeld-room-mute-changed.js",
+      "raumfeld room play state changed": "./nodes/raumfeld-room-play-state-changed.js",
+      "raumfeld room set mute": "./nodes/raumfeld-room-set-mute.js",
+      "raumfeld room set volume": "./nodes/raumfeld-room-set-volume.js",
+      "raumfeld room title changed": "./nodes/raumfeld-room-title-changed.js",
+      "raumfeld room volume changed": "./nodes/raumfeld-room-volume-changed.js"
     }
   }
 }

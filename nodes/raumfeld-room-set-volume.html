@@ -1,0 +1,67 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-set-volume',{
+        category: 'raumfeld output',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: ""},
+            volume: {value: "", validate: RED.validators.regex(/^(\s*|[0-9][0-9]?|100)$/)},
+            unmute: {value: false},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                 this.volume ?
+                                 "'" + this.roomName + "' set volume to " + this.volume
+                                 : "'" + this.roomName + "' set volume"
+                                 : "raumfeld room set volume");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-set-volume">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-volume"><i class="fa fa-volume-up"></i> Volume</label>
+        <input type="text" id="node-input-volume" placeholder="Volume">
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-unmute" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-unmute" style="width: 70%;">Unmute?</label>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-set-volume">
+    <p>Sets the volume in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">number</span></dt>
+            <dd>the value of the volume to set. Must be between <code>0</code> and <code>100</code></dd>
+            <dt class="optional">volume <span class="property-type">number</span></dt>
+            <dd>the value of the volume to set. Must be between <code>0</code> and <code>100</code></dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to set the volume.</dd>
+            <dt class="optional">unmute <span class="property-type">boolean</span></dt>
+            <dd>unmute the room if it is muted. Unmuting will happen AFTER the new volume has been set!</dd>
+        </dl>
+</script>

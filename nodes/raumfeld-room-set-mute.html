@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-set-mute',{
+        category: 'raumfeld output',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: ""},
+            mute: {value: false},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                 "'" + this.roomName + "' set mute"
+                                 : "raumfeld room set mute");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-set-mute">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-set-mute">
+    <p>Sets the mute state in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">boolean</span></dt>
+            <dd>the value of the mute state to set.</dd>
+            <dt class="optional">mute <span class="property-type">boolean</span></dt>
+            <dd>the value of the mute state to set.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to set the volume.</dd>
+        </dl>
+</script>

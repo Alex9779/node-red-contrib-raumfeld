@@ -1,0 +1,18 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-raumkernel',{
+        category: 'config',
+        defaults: {
+            raumfeldHost: {value: "0.0.0.0", required: true, validate: RED.validators.regex(/^([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))\.([0-9]|[1-9][0-9]|1([0-9][0-9])|2([0-4][0-9]|5[0-5]))$/)},
+        },
+        label: function() {
+            return this.raumfeldHost == "0.0.0.0" ? "Bonjour discovery" : this.raumfeldHost;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-raumkernel">
+    <div class="form-row">
+        <label for="node-config-input-raumfeldHost"><i class="fa fa-server"></i> Host</label>
+        <input type="text" id="node-config-input-raumfeldHost">
+    </div>
+</script>

@@ -1,0 +1,52 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-mute-changed',{
+        category: 'raumfeld input',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: "", required: true},
+            name: {value: ""}
+        },
+        inputs:0,
+        outputs:1,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                "'" + this.roomName + "' mute changed"
+                                : "raumfeld room mute changed");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-mute-changed">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-mute-changed">
+    <p>Monitors a room for changing mute.</p>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the value of the mute. <code>"0"</code> for not muted, <code>"1"</code> for muted.</dd>
+            <dt>roomname <span class="property-type">string</span></dt>
+            <dd>the name of the room the mute change occurred.</dd>
+            <dt>oldMute <span class="property-type">string</span></dt>
+            <dd>the value of the old mute.</dd>
+            <dt>newMute <span class="property-type">string</span></dt>
+            <dd>the value of the new mute. (Equals <code>msg.payload</code>)</dd>
+        </dl>
+</script>
