@@ -457,6 +457,90 @@
 
 
 <script type="text/javascript">
+    RED.nodes.registerType('raumfeld room load favorite',{
+        category: 'raumfeld output',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld raumkernel", required: true},
+            roomName: {value: ""},
+            favorite: {value: ""},
+            volume: {value: "", validate: RED.validators.regex(/^(\s*|[1-9][0-9]?|100)$/)},
+            overrideVolume: {value: false},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                 this.playlist ?
+                                 "'" + this.roomName + "' load '" + this.favorite + "'"
+                                 : "'" + this.roomName + "' load favorite"
+                                 : "raumfeld room load favorite");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld room load favorite">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-favorite"><i class="fa fa-bars"></i> Favorite</label>
+        <input type="text" id="node-input-favorite" placeholder="Favorite"/>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-volume"><i class="fa fa-volume-up"></i> Volume</label>
+        <input type="text" id="node-input-volume" placeholder="Volume"/>
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-overrideVolume" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-mute" style="width: 70%;">Override volume if already playing selected playlist?</label>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld room load favorite">
+    <p>Loads a favorite in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the name of the favorite to load.</dd>
+            <dt class="optional">favorite <span class="property-type">string</span></dt>
+            <dd>the name of the favorite to load.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to load the favorite.</dd>
+            <dt class="optional">volume <span class="property-type">number</span></dt>
+            <dd>the volume to set in the room. The volume is set before the favorite is loaded!</dd>
+            <dt class="optional">overrideVolume <span class="property-type">boolean</span></dt>
+            <dd>set to override the volume in the room is already playing the selected favorite.</dd>
+        </dl>
+
+    <h3>Details</h3>
+        <p>
+            First the whole system is checked if the selected favorite is already being played in a zone.
+            If that is true then the selected room is added to that zone.
+        </p>
+</script>
+
+
+
+<script type="text/javascript">
     RED.nodes.registerType('raumfeld room drop from zone',{
         category: 'raumfeld output',
         color: '#CBCBCB',

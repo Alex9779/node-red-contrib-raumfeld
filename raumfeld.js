@@ -1,5 +1,6 @@
 'use strict';
 var RaumkernelLib = require('node-raumkernel');
+var parseString = require('xml2js').parseString;
 
 const MYPLAYLISTS = "0/Playlists/MyPlaylists/";
 
@@ -281,6 +282,145 @@ module.exports = function(RED) {
         });
     }
     RED.nodes.registerType("raumfeld room load playlist", RaumfeldRoomLoadPlaylist);
+
+    function RaumfeldRoomLoadFavorite(config) {
+        RED.nodes.createNode(this, config);
+        var node = this;
+
+        node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
+
+        node.on('input', function(msg) {
+            var roomName = config.roomName || msg.roomName;
+            var favorite = config.favorite || msg.favorite || msg.payload;
+            var volume = config.volume || msg.volume;
+            var overrideVolume = config.overrideVolume || msg.overrideVolume;
+
+            var room = node.raumkernelNode.zoneManager.getRoomObjectFromMediaRendererUdnOrName(roomName);
+            var roomUdn = room.$.udn;
+            var favoriteXMLObject;
+            var favoriteType;
+            var alreadyPlaying = false;
+
+            var mediaServer = node.raumkernelNode.deviceManager.getRaumfeldMediaServer();
+
+            mediaServer.browse("0/Favorites/MyFavorites").then(function(_data){
+                var parseString = require('xml2js').parseString;
+                var xml = _data;
+
+                parseString(xml, function (err, result) {
+                    result["DIDL-Lite"].container.forEach(container => {
+                        if (container["dc:title"][0] == favorite)
+                        {
+                            favoriteXMLObject = container;
+                            favoriteType = "container";
+                        }
+                    });
+
+                    if (!favoriteXMLObject) {
+                        result["DIDL-Lite"].item.forEach(item => {
+                            if (item["dc:title"][0] == favorite)
+                            {
+                                favoriteXMLObject = item;
+                                favoriteType = "item";
+                            }
+                        });
+                    }
+
+                    var es = node.raumkernelNode.raumkernel.encodeString;
+
+                    if (favoriteXMLObject) {
+                        switch (favoriteXMLObject["upnp:class"][0]) {
+                            case "object.container.person.musicArtist":
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+                                    if (mediaRendererVirtual.currentMediaItemData) {
+                                        if (mediaRendererVirtual.currentMediaItemData.parentID.endsWith(es(favoriteXMLObject["upnp:artist"]["0"]) + "/AllTracks")
+                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+
+                                            alreadyPlaying = true;
+                                        }
+                                    }
+                                });
+                                break;
+
+                            case "object.container.album.musicAlbum":
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+                                    if (mediaRendererVirtual.currentMediaItemData) {
+                                        if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                                && mediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+
+                                            alreadyPlaying = true;
+                                        }
+                                    }
+                                });
+                                break;
+
+                            case "object.item.audioItem.musicTrack":
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+                                    if (mediaRendererVirtual.currentMediaItemData) {
+                                        if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                                && mediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                                && mediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+
+                                            alreadyPlaying = true;
+                                        }
+                                    }
+                                });
+                                break;
+
+                            case "object.item.audioItem.audioBroadcast.radio":
+                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
+                                    if (mediaRendererVirtual.currentMediaItemData) {
+                                        if (mediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                                && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+
+                                            alreadyPlaying = true;
+                                        }
+                                    }
+                                });
+                                break;
+                        }
+
+                        if (alreadyPlaying)  {
+                            if (overrideVolume && volume) {
+                                mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                            }
+
+                            if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
+                            }
+                        }
+                        else {
+                            var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+
+                            if (!mediaRendererVirtual) {
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, "", true).then(function() {
+                                    mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+
+                                    if (volume) {
+                                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                    }
+
+                                    mediaRendererVirtual.loadSingle(favoriteId);
+                                });
+                            }
+                            else {
+                                mediaRendererVirtual.leaveStandby(roomUdn, true).then(function() {
+                                        if (volume) {
+                                            mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                                        }
+
+                                        mediaRendererVirtual.loadSingle(favoriteId);
+                                });
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    }
+    RED.nodes.registerType("raumfeld room load favorite", RaumfeldRoomLoadFavorite);
 
     function RaumfeldRoomDropFromZone(config) {
         RED.nodes.createNode(this, config);
