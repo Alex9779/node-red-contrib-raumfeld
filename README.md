@@ -2,7 +2,7 @@ node-red-contrib-raumfeld
 ===============================
 Monitor and control your [Teufel Streaming](https://www.teufel.de/) (formerly known as Raumfeld) devices from [Node-RED](https://nodered.org).
 
-[![npm version](https://badge.fury.io/js/node-red-contrib-raumfeld.svg)](http://badge.fury.io/js/node-red-contrib-raumfeld) [![Dependency Status](https://david-dm.org/alex9779/node-red-contrib-raumfeld.svg)](https://david-dm.org/alex9779/noder-red-contrib-raumfeld)
+[![npm version](https://badge.fury.io/js/node-red-contrib-raumfeld.svg)](http://badge.fury.io/js/node-red-contrib-raumfeld) [![Dependency Status](https://david-dm.org/alex9779/node-red-contrib-raumfeld.svg)](https://david-dm.org/alex9779/node-red-contrib-raumfeld)
 
 ### Overview
 node-red-contrib-raumfeld provides a bunch of nodes to control certain aspects of your Teufel Streaming (formerly known as Raumfeld) system.
