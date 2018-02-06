@@ -123,7 +123,7 @@ module.exports = function(RED) {
                                         roomMediaRenderer.setVolume(volume);
                                     }
 
-                                    mediaRendererVirtual.loadSingle(favoriteId);
+                                    mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
                                 });
                             }
                             else {
@@ -132,7 +132,7 @@ module.exports = function(RED) {
                                             roomMediaRenderer.setVolume(volume);
                                         }
 
-                                        mediaRendererVirtual.loadSingle(favoriteId);
+                                        mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
                                 });
                             }
                         }
