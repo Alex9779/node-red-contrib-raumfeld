@@ -231,30 +231,28 @@ module.exports = function(RED) {
 
             var alreadyPlaying = false;
 
+            var es = node.raumkernelNode.raumkernel.encodeString;
+
             node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(mediaRendererVirtual => {
-                if (mediaRendererVirtual.mediaOriginData.containerId == MYPLAYLISTS + node.raumkernelNode.raumkernel.encodeString(playlist)
-                        && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
-                        && !mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
-                    alreadyPlaying = true;
+                if (mediaRendererVirtual.currentMediaItemData) {
+                    if (mediaRendererVirtual.currentMediaItemData.containerId == MYPLAYLISTS + es(playlist)
+                            && mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
 
-                    if (overrideVolume && volume) {
-                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
-                    }
-
-                    node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
-                }
-                else if (mediaRendererVirtual.mediaOriginData.containerId == MYPLAYLISTS + node.raumkernelNode.raumkernel.encodeString(playlist)
-                            && mediaRendererVirtual.rendererState.TransportState == "PLAYING"
-                            && mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
-                    alreadyPlaying = true;
-
-                    if (overrideVolume && volume) {
-                        mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                        alreadyPlaying = true;
                     }
                 }
             });
 
-            if (!alreadyPlaying)
+            if (alreadyPlaying)  {
+                if (overrideVolume && volume) {
+                    mediaRendererVirtual.setRoomVolume(roomUdn, volume)
+                }
+
+                if (!mediaRendererVirtual.rendererState["rooms"][roomUdn]) {
+                    node.raumkernelNode.zoneManager.connectRoomToZone(roomUdn, mediaRendererVirtual.udn(), true);
+                }
+            }
+            else {
             {
                 var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
