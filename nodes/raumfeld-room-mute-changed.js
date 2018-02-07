@@ -8,7 +8,7 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
-            var roomNames = (config.roomNames).split(",");
+            var roomNames = (config.roomNames || "").split(",");
             var msg = {};
 
             msg.roomName = _mediaRenderer.roomName();
