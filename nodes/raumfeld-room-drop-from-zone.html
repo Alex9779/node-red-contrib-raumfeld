@@ -4,7 +4,7 @@
         color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomNames: {value: ""},
+            roomNames: {value: "", validate: RED.validators.regex(/^$|^.*\S.*$/)},
             name: {value: ""}
         },
         inputs:1,
@@ -36,13 +36,13 @@
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld-room-drop-from-zone">
-    <p>Drops a room from its current zone.</p>
+    <p>Drops room(s) from their zone.</p>
 
     <h3>Inputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">string</span></dt>
-            <dd>comma seperated list of room names to drop from its zone.</dd>
-            <dt class="optional">roomName <span class="property-type">string</span></dt>
-            <dd>omma seperated list of room names to drop from its zone.</dd>
+            <dd>comma seperated list of room names to drop their zone.</dd>
+            <dt class="optional">roomNames <span class="property-type">string</span></dt>
+            <dd>comma seperated list of room names to drop from their zone.</dd>
         </dl>
 </script>
