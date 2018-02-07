@@ -8,11 +8,21 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on("input", function(msg) {
-            var roomName = config.roomName || msg.roomName || msg.payload;
+            var roomNames = (config.roomNames || msg.roomNames || msg.payload).split(",");
 
-            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var roomMediaRenderers = []
 
-            node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn());
+            roomNames.forEach(roomName => {
+                roomMediaRenderers.push(node.raumkernelNode.deviceManager.getMediaRenderer(roomName));
+            });
+
+            async function dropRoomsFromZone() {
+                for (let roomMediaRenderer of roomMediaRenderers) {
+                    await node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn(), true);
+                }
+            }
+
+            dropRoomsFromZone();
         });
     }
     RED.nodes.registerType("raumfeld-room-drop-from-zone", RaumfeldRoomDropFromZoneNode);
