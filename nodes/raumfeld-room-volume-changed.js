@@ -1,4 +1,5 @@
 "use strict";
+var RaumkernelLib = require("node-raumkernel");
 
 module.exports = function(RED) {
     function RaumfeldRoomVolumeChangedNode(config) {
@@ -8,30 +9,32 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
-            var roomName = config.roomName;
+            var roomNames = (config.roomNames).split(",");
             var mute = config.mute;
             var msg = {};
 
-            msg.roomName = roomName;
+            msg.roomName = _mediaRenderer.roomName();
 
-            if (!_roomUdn && _mediaRenderer.roomName() == roomName && _key == "Volume") {
-                msg.oldVolume = _oldValue;
-                msg.newVolume = _newValue;
-                msg.payload = _newValue;
+            if (!(_mediaRenderer instanceof RaumkernelLib.MediaRendererRaumfeldVirtual)) {
+                if ((roomNames[0] == "" || roomNames.includes(_mediaRenderer.roomName())) && _key == "Volume") {
+                    msg.oldVolume = _oldValue;
+                    msg.newVolume = _newValue;
+                    msg.payload = _newValue;
 
-                node.send(msg);
-            }
-            else if (!_roomUdn && mute && _mediaRenderer.roomName() == roomName && _key == "Mute") {
-                if (_newValue == "1") {
-                    msg.newVolume = "0";
-                    msg.payload = "0";
+                    node.send(msg);
                 }
-                else if (_newValue == "0") {
-                    msg.newVolume = _mediaRenderer.rendererState.Volume;
-                    msg.payload = _mediaRenderer.rendererState.Volume;
-                }
+                else if (mute && (roomNames[0] == "" || roomNames.includes(_mediaRenderer.roomName())) && _key == "Mute") {
+                    if (_newValue == "1") {
+                        msg.newVolume = "0";
+                        msg.payload = "0";
+                    }
+                    else if (_newValue == "0") {
+                        msg.newVolume = _mediaRenderer.rendererState.Volume;
+                        msg.payload = _mediaRenderer.rendererState.Volume;
+                    }
 
-                node.send(msg);
+                    node.send(msg);
+                }
             }
         }
 
