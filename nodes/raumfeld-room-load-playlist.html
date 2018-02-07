@@ -4,9 +4,9 @@
         color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomName: {value: ""},
+            roomNames: {value: ""},
             playlist: {value: ""},
-            volume: {value: "", validate: RED.validators.regex(/^(\s*|[0-9][0-9]?|100)$/)},
+            volumes: {value: "", validate: RED.validators.regex(/^(\s*|[0-9][0-9]?,?|100,?)(,[0-9][0-9]?,?|,100,?)*$/)},
             overrideVolume: {value: false},
             name: {value: ""}
         },
@@ -14,10 +14,10 @@
         outputs:0,
         icon: "raumfeld.png",
         label: function() {
-            return this.name || (this.roomName ?
+            return this.name || (this.roomNames ?
                                  this.playlist ?
-                                 "'" + this.roomName + "' load '" + this.playlist + "'"
-                                 : "'" + this.roomName + "' load playlist"
+                                 "'" + this.roomNames + "' load '" + this.playlist + "'"
+                                 : "'" + this.roomNames + "' load playlist"
                                  : "raumfeld room load playlist");
         }
     });
@@ -40,8 +40,8 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-volume"><i class="fa fa-volume-up"></i> Volume</label>
-        <input type="text" id="node-input-volume" placeholder="Volume"/>
+        <label for="node-input-volumes"><i class="fa fa-volume-up"></i> Volume(s)</label>
+        <input type="text" id="node-input-volumes" placeholder="Volume(s)"/>
     </div>
 
     <div class="form-row">
@@ -65,10 +65,14 @@
             <dd>the name of the playlist to load.</dd>
             <dt class="optional">playlist <span class="property-type">string</span></dt>
             <dd>the name of the playlist to load.</dd>
-            <dt class="optional">roomName <span class="property-type">string</span></dt>
-            <dd>the room where to load the playlist.</dd>
-            <dt class="optional">volume <span class="property-type">number</span></dt>
-            <dd>the volume to set in the room. The volume is set before the playlist is loaded!</dd>
+            <dt class="optional">roomNames <span class="property-type">string</span></dt>
+            <dd>comma seperated list of room names where to load the playlist.</dd>
+            <dt class="optional">volumes <span class="property-type">string</span></dt>
+            <dd>
+                comma seperated list of volume values to set in the room(s).
+                The volume is set before the favorite is loaded!
+                If there are less volume values than rooms the rooms with missing values get the very first value assigned!
+            </dd>
             <dt class="optional">overrideVolume <span class="property-type">boolean</span></dt>
             <dd>set to override the volume in the room is already playing the selected playlist.</dd>
         </dl>

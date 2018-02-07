@@ -10,12 +10,16 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on("input", function(msg) {
-            var roomName = config.roomName || msg.roomName;
+            var roomNames = (config.roomNames || msg.roomNames).split(",");
             var favorite = config.favorite || msg.favorite || msg.payload;
-            var volume = config.volume || msg.volume;
+            var volumes = (config.volumes || msg.volumes).split(",");
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
-            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var roomMediaRenderers = []
+
+            roomNames.forEach(roomName => {
+                roomMediaRenderers.push(node.raumkernelNode.deviceManager.getMediaRenderer(roomName));
+            });
 
             var mediaRendererVirtual;
             var favoriteXMLObject;
@@ -46,98 +50,124 @@ module.exports = function(RED) {
                             }
                         });
                     }
+                });
 
-                    var es = node.raumkernelNode.raumkernel.encodeString;
+                var es = node.raumkernelNode.raumkernel.encodeString;
 
-                    if (favoriteXMLObject) {
-                        switch (favoriteXMLObject["upnp:class"][0]) {
-                            case "object.container.person.musicArtist":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
-                                    if (existingMediaRendererVirtual.currentMediaItemData) {
-                                        if (existingMediaRendererVirtual.currentMediaItemData.parentID.endsWith(es(favoriteXMLObject["upnp:artist"]["0"]) + "/AllTracks")
-                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-                                            mediaRendererVirtual = existingMediaRendererVirtual;
-                                            alreadyPlaying = true;
-                                        }
+                if (favoriteXMLObject) {
+                    switch (favoriteXMLObject["upnp:class"][0]) {
+                        case "object.container.person.musicArtist":
+                            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                if (existingMediaRendererVirtual.currentMediaItemData) {
+                                    if (existingMediaRendererVirtual.currentMediaItemData.parentID.endsWith(es(favoriteXMLObject["upnp:artist"]["0"]) + "/AllTracks")
+                                            && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                        mediaRendererVirtual = existingMediaRendererVirtual;
+                                        alreadyPlaying = true;
                                     }
-                                });
-                                break;
+                                }
+                            });
+                            break;
 
-                            case "object.container.album.musicAlbum":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
-                                    if (existingMediaRendererVirtual.currentMediaItemData) {
-                                        if (existingMediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
-                                                && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
-                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-                                            mediaRendererVirtual = existingMediaRendererVirtual;
-                                            alreadyPlaying = true;
-                                        }
+                        case "object.container.album.musicAlbum":
+                            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                if (existingMediaRendererVirtual.currentMediaItemData) {
+                                    if (existingMediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                            && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                            && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                        mediaRendererVirtual = existingMediaRendererVirtual;
+                                        alreadyPlaying = true;
                                     }
-                                });
-                                break;
+                                }
+                            });
+                            break;
 
-                            case "object.item.audioItem.musicTrack":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
-                                    if (existingMediaRendererVirtual.currentMediaItemData) {
-                                        if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
-                                                && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
-                                                && existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
-                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-                                            mediaRendererVirtual = existingMediaRendererVirtual;
-                                            alreadyPlaying = true;
-                                        }
+                        case "object.item.audioItem.musicTrack":
+                            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                if (existingMediaRendererVirtual.currentMediaItemData) {
+                                    if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                            && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
+                                            && existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                            && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                        mediaRendererVirtual = existingMediaRendererVirtual;
+                                        alreadyPlaying = true;
                                     }
-                                });
-                                break;
+                                }
+                            });
+                            break;
 
-                            case "object.item.audioItem.audioBroadcast.radio":
-                                node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
-                                    if (existingMediaRendererVirtual.currentMediaItemData) {
-                                        if (existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
-                                                && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
-                                            mediaRendererVirtual = existingMediaRendererVirtual;
-                                            alreadyPlaying = true;
-                                        }
+                        case "object.item.audioItem.audioBroadcast.radio":
+                            node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
+                                if (existingMediaRendererVirtual.currentMediaItemData) {
+                                    if (existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                            && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
+                                        mediaRendererVirtual = existingMediaRendererVirtual;
+                                        alreadyPlaying = true;
                                     }
-                                });
-                                break;
+                                }
+                            });
+                            break;
+                    }
+
+                    if (alreadyPlaying)  {
+                        if (overrideVolume && volumes[0]) {
+                            roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                roomMediaRenderer.setVolume(volume);
+                            });
                         }
 
-                        if (alreadyPlaying)  {
-                            if (overrideVolume && volume) {
-                                roomMediaRenderer.setVolume(volume);
-                            }
-
+                        roomMediaRenderers.forEach(roomMediaRenderer => {
                             if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn());
                             }
+                        });
+                    }
+                    else {
+                        mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
+
+                        if (!mediaRendererVirtual) {
+                            node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[0].roomUdn(), "", true).then(function() {
+                                mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
+
+                                for (let i = 1; i < roomMediaRenderers.length; i++) {
+                                    if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
+                                        node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
+                                    }
+                                }
+
+                                if (volumes[0]) {
+                                    roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                        var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                        roomMediaRenderer.setVolume(volume);
+                                    });
+                                }
+
+                                mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
+                            });
                         }
                         else {
-                            mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
-
-                            if (!mediaRendererVirtual) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), "", true).then(function() {
-                                    mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
-
-                                    if (volume) {
-                                        roomMediaRenderer.setVolume(volume);
+                            roomMediaRenderers[0].leaveStandby(true).then(function() {
+                                for (let i = 1; i < roomMediaRenderers.length; i++) {
+                                    if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
+                                        node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
                                     }
+                                }
 
-                                    mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
-                                });
-                            }
-                            else {
-                                roomMediaRenderer.leaveStandby(true).then(function() {
-                                        if (volume) {
-                                            roomMediaRenderer.setVolume(volume);
-                                        }
+                                if (volumes[0]) {
+                                    roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                        var volume = volumes[i] ? volumes[i] : volumes[0];
 
-                                        mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
-                                });
-                            }
+                                        roomMediaRenderer.setVolume(volume);
+                                    });
+                                }
+
+                                mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
+                            });
                         }
                     }
-                });
+                }
             });
         });
     }

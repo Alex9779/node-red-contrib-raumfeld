@@ -8,12 +8,16 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on("input", function(msg) {
-            var roomName = config.roomName || msg.roomName;
+            var roomNames = (config.roomNames || msg.roomNames).split(",");
             var playlist = config.playlist || msg.playlist || msg.payload;
-            var volume = config.volume || msg.volume;
+            var volumes = (config.volumes || msg.volumes).split(",");
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
-            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var roomMediaRenderers = []
+
+            roomNames.forEach(roomName => {
+                roomMediaRenderers.push(node.raumkernelNode.deviceManager.getMediaRenderer(roomName));
+            });
 
             var mediaRendererVirtual;
             var alreadyPlaying = false;
@@ -31,23 +35,39 @@ module.exports = function(RED) {
             });
 
             if (alreadyPlaying)  {
-                if (overrideVolume && volume) {
-                    roomMediaRenderer.setVolume(volume);
+                if (overrideVolume && volumes[0]) {
+                    roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                        var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                        roomMediaRenderer.setVolume(volume);
+                    });
                 }
 
-                if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
-                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn(), true);
-                }
+                roomMediaRenderers.forEach(roomMediaRenderer => {
+                    if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
+                        node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn());
+                    }
+                });
             }
             else {
-                mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+                mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
 
                 if (!mediaRendererVirtual) {
-                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), "", true).then(function() {
-                        mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
+                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[0].roomUdn(), "", true).then(function() {
+                        mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
 
-                        if (volume) {
-                            roomMediaRenderer.setVolume(volume);
+                        for (let i = 1; i < roomMediaRenderers.length; i++) {
+                            if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
+                            }
+                        }
+
+                        if (volumes[0]) {
+                            roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                roomMediaRenderer.setVolume(volume);
+                            });
                         }
 
                         mediaRendererVirtual.loadPlaylist(playlist);
@@ -55,11 +75,21 @@ module.exports = function(RED) {
                 }
                 else {
                     roomMediaRenderer.leaveStandby(true).then(function() {
-                            if (volume) {
-                                roomMediaRenderer.setVolume(volume);
+                        for (let i = 1; i < roomMediaRenderers.length; i++) {
+                            if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
+                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
                             }
+                        }
 
-                            mediaRendererVirtual.loadPlaylist(playlist);
+                        if (volumes[0]) {
+                            roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                roomMediaRenderer.setVolume(volume);
+                            });
+                        }
+
+                        mediaRendererVirtual.loadPlaylist(playlist);
                     });
                 }
             }
