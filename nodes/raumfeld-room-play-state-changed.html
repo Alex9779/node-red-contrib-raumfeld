@@ -4,15 +4,15 @@
         color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomName: {value: "", required: true},
+            roomNames: {value: "", validate: RED.validators.regex(/^$|^.*\S.*$/)},
             name: {value: ""}
         },
         inputs:0,
         outputs:1,
         icon: "raumfeld.png",
         label: function() {
-            return this.name || (this.roomName ?
-                                "'" + this.roomName + "' play state changed"
+            return this.name || (this.roomNames ?
+                                "'" + this.roomNames + "' play state changed"
                                 : "raumfeld room play state changed");
         }
     });
@@ -25,24 +25,28 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
-        <input type="text" id="node-input-roomName" placeholder="Room name">
+        <label for="node-input-roomNames"><i class="fa fa-home"></i> Room name(s)</label>
+        <input type="text" id="node-input-roomNames" placeholder="Room name(s)">
     </div>
 
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+    <div class="form-tips">
+        If no room names are given then all rooms are monitored!
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld-room-play-state-changed">
-    <p>Monitors a room for play state changes.</p>
+    <p>Monitors room(s) for play state changes.</p>
 
     <h3>Outputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">boolean</span></dt>
             <dd><code>true</code> if the room is playing, <code>false</code> if not.</dd>
-            <dt>roomname <span class="property-type">string</span></dt>
+            <dt>roomName <span class="property-type">string</span></dt>
             <dd>the name of the room the title change occurred.</dd>
         </dl>
 </script>
