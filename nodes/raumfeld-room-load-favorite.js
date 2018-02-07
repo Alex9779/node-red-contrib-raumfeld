@@ -10,9 +10,9 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on("input", function(msg) {
-            var roomNames = (config.roomNames || msg.roomNames).split(",");
+            var roomNames = (config.roomNames || msg.roomNames || "").split(",");
             var favorite = config.favorite || msg.favorite || msg.payload;
-            var volumes = (config.volumes || msg.volumes).split(",");
+            var volumes = (config.volumes || msg.volumes || "").split(",");
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
             var roomMediaRenderers = []
