@@ -4,7 +4,7 @@
         color: '#CBCBCB',
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomName: {value: "", required: true},
+            roomNames: {value: "", validate: RED.validators.regex(/^$|^.*\S.*$/)},
             mute: {value: false},
             name: {value: ""}
         },
@@ -13,7 +13,7 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                "'" + this.roomName + "' volume changed"
+                                "'" + this.roomNames + "' volume changed"
                                 : "raumfeld room volume changed");
         }
     });
@@ -26,8 +26,8 @@
     </div>
 
     <div class="form-row">
-        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
-        <input type="text" id="node-input-roomName" placeholder="Room name">
+        <label for="node-input-roomNames"><i class="fa fa-home"></i> Room name(s)</label>
+        <input type="text" id="node-input-roomNames" placeholder="Room name(s)">
     </div>
 
     <div class="form-row">
@@ -40,6 +40,11 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+    <div class="form-tips">
+        <code>Room name(s)</code> is a comma seperated list of room names.
+        If no room names are given then all rooms are monitored!
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld-room-volume-changed">
@@ -49,7 +54,7 @@
         <dl class="message-properties">
             <dt>payload <span class="property-type">string</span></dt>
             <dd>the value of the volume.</dd>
-            <dt>roomname <span class="property-type">string</span></dt>
+            <dt>roomName <span class="property-type">string</span></dt>
             <dd>the name of the room the volume change occurred.</dd>
             <dt>oldVolume <span class="property-type">string</span></dt>
             <dd>the value of the old volume.</dd>

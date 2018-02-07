@@ -8,14 +8,14 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        var roomName = config.roomName;
-
         function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
+            var roomNames = (config.roomNames).split(",");
             var msg = {};
-            msg.roomName = roomName;
+
+            msg.roomName = _mediaRenderer.roomName();
 
             if (!(_mediaRenderer instanceof RaumkernelLib.MediaRendererRaumfeldVirtual)) {
-                if (_mediaRenderer.roomName() == roomName && _key == "TransportState") {
+                if ((roomNames[0] == "" || roomNames.includes(_mediaRenderer.roomName())) && _key == "TransportState") {
                     if (_newValue == "PLAYING") {
                         msg.payload = true;
                     }

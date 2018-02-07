@@ -7,13 +7,13 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        var roomName = config.roomName;
-
         function handleEvent(_mediaRenderer, _key, _oldValue, _newValue, _roomUdn) {
+            var roomNames = (config.roomNames).split(",");
             var msg = {};
-            msg.roomName = roomName;
 
-            if (!_roomUdn && _mediaRenderer.roomName() == roomName && _key == "Mute") {
+            msg.roomName = _mediaRenderer.roomName();
+
+            if (!_roomUdn && (roomNames[0] == "" || roomNames.includes(_mediaRenderer.roomName())) && _key == "Mute") {
                 msg.oldMute = _oldValue;
                 msg.newMute = _newValue;
                 msg.payload = _newValue;

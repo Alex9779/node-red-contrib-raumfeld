@@ -7,20 +7,23 @@ module.exports = function(RED) {
 
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
-        var roomName = config.roomName;
-
         function handleEvent(_mediaRenderer, _mediaItemData) {
+            var roomNames = (config.roomNames).split(",");
             var msg = {};
 
-            msg.roomName = roomName;
+            var eventRoomNames = _mediaRenderer.roomName().split(",");
 
-            if (_mediaRenderer.roomName().search(roomName) >= 0) {
-                msg.payload = _mediaItemData.title;
-                msg.title = _mediaItemData.title;
-                msg.parentId = _mediaItemData.parentId;
+            eventRoomNames.forEach(eventRoomName => {
+                msg.roomName = eventRoomName;
 
-                node.send(msg);
-            }
+                if ((roomNames[0] == "" || roomNames.includes(eventRoomName))) {
+                    msg.payload = _mediaItemData.title;
+                    msg.title = _mediaItemData.title;
+                    msg.parentId = _mediaItemData.parentId;
+
+                    node.send(msg);
+                }
+            });
         }
 
         node.raumkernelNode.raumkernel.on("rendererMediaItemDataChanged", handleEvent);
