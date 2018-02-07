@@ -10,12 +10,15 @@ module.exports = function(RED) {
         node.raumkernelNode = RED.nodes.getNode(config.raumkernel);
 
         node.on("input", function(msg) {
-            var roomNames = config.roomNames || msg.roomNames || msg.payload;
-            if (roomNames) roomNames = roomNames.split(",");
+            var roomNames = config.roomNames || msg.roomNames;
+            if (roomNames) roomNames = roomNames.split(",")
+            else roomNames = [""];
 
             var favorite = config.favorite || msg.favorite || msg.payload;
-            var volumes = (config.volumes || msg.volumes || "").split(",");
+
+            var volumes = config.volumes || msg.volumes;
             if (volumes) volumes = volumes.split(",");
+            else volumes = [""];
 
             var overrideVolume = config.overrideVolume || msg.overrideVolume;
 
