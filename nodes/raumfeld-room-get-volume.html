@@ -1,0 +1,56 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-get-volume',{
+        category: 'raumfeld function',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: ""},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                 "'" + this.roomName + "' get volume"
+                                 : "raumfeld room get volume");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-get-volume">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-get-volume">
+    <p>Gets the volume for a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the room to get the current media title for.</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room to get the volume for.</dd>
+        </dl>
+
+    <h3>Outputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>the volume</dd>
+            <dt>roomName <span class="property-type">string</span></dt>
+            <dd>the room.</dd>
+        </dl>
+</script>
