@@ -8,7 +8,7 @@
     "node-red", "teufel", "streaming", "raumfeld"
   ],
   "dependencies": {
-    "node-raumkernel": "git+https://github.com/ChriD/node-raumkernel.git",
+    "node-raumkernel": "^1.2.16",
     "xml2js": "^0.4.19"
   },
   "repository": {
