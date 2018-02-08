@@ -5,7 +5,10 @@
   "author": "Alexander Leisentritt",
   "license": "ISC",
   "keywords": [
-    "node-red", "teufel", "streaming", "raumfeld"
+    "node-red",
+    "teufel",
+    "streaming",
+    "raumfeld"
   ],
   "dependencies": {
     "node-raumkernel": "^1.2.16",
