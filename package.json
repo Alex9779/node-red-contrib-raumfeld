@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-raumfeld",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Control a Teufel Raumfeld system",
   "author": "Alexander Leisentritt",
   "license": "ISC",
@@ -8,7 +8,7 @@
     "node-red", "teufel", "streaming", "raumfeld"
   ],
   "dependencies": {
-    "node-raumkernel": "git+https://github.com/ChriD/node-raumkernel.git",
+    "node-raumkernel": "^1.2.16",
     "xml2js": "^0.4.19"
   },
   "repository": {
@@ -21,6 +21,7 @@
       "raumfeld room drop from zone": "./nodes/raumfeld-room-drop-from-zone.js",
       "raumfeld room get media title": "./nodes/raumfeld-room-get-media-title.js",
       "raumfeld room get play state": "./nodes/raumfeld-room-get-play-state.js",
+      "raumfeld room get volume": "./nodes/raumfeld-room-get-volume.js",
       "raumfeld room load favorite": "./nodes/raumfeld-room-load-favorite.js",
       "raumfeld room load playlist": "./nodes/raumfeld-room-load-playlist.js",
       "raumfeld room mute changed": "./nodes/raumfeld-room-mute-changed.js",
