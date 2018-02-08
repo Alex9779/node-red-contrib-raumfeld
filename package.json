@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-raumfeld",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Control a Teufel Raumfeld system",
   "author": "Alexander Leisentritt",
   "license": "ISC",
@@ -8,7 +8,7 @@
     "node-red", "teufel", "streaming", "raumfeld"
   ],
   "dependencies": {
-    "node-raumkernel": "git+https://github.com/ChriD/node-raumkernel.git",
+    "node-raumkernel": "^1.2.16",
     "xml2js": "^0.4.19"
   },
   "repository": {
