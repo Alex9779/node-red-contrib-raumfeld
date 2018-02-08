@@ -15,13 +15,12 @@ module.exports = function(RED) {
             var msg = {};
 
             msg.roomName = roomName;
-            msg.payload = "";
 
             if (mediaRenderer) {
                 msg.payload = mediaRenderer.rendererState.Volume;
             }
 
-            node.send(msg);
+            if (msg.hasOwnProperty("payload")) node.send(msg);
         });
     }
     RED.nodes.registerType("raumfeld-room-get-volume", RaumfeldRoomGetVolumeNode);
