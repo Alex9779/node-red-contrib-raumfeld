@@ -23,9 +23,12 @@ module.exports = function(RED) {
                 else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT") {
                     msg.payload = false;
                 }
-
-                if (msg.hasOwnProperty("payload")) node.send(msg);
             }
+            else {
+                msg.payload = false;
+            }
+
+            node.send(msg)
         });
     }
     RED.nodes.registerType("raumfeld-room-get-play-state", RaumfeldRoomGetPlayStateNode);
