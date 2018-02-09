@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-raumfeld",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "Control a Teufel Raumfeld system",
   "author": "Alexander Leisentritt",
   "license": "ISC",
@@ -24,7 +24,7 @@
       "raumfeld room drop from zone": "./nodes/raumfeld-room-drop-from-zone.js",
       "raumfeld room get media title": "./nodes/raumfeld-room-get-media-title.js",
       "raumfeld room get volume": "./nodes/raumfeld-room-get-volume.js",
-      "raumfeld room is playing changed": "./nodes/raumfeld-room-s-playing-changed.js",
+      "raumfeld room is playing changed": "./nodes/raumfeld-room-is-playing-changed.js",
       "raumfeld room is playing": "./nodes/raumfeld-room-is-playing.js",
       "raumfeld room load favorite": "./nodes/raumfeld-room-load-favorite.js",
       "raumfeld room load playlist": "./nodes/raumfeld-room-load-playlist.js",
