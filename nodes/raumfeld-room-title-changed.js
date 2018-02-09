@@ -32,7 +32,7 @@ module.exports = function(RED) {
         node.raumkernelNode.raumkernel.on("rendererMediaItemDataChanged", handleEvent);
 
         node.on("close", function() {
-            node.raumkernelNode.removeListener("rendererMediaItemDataChanged", handleEvent);
+            node.raumkernelNode.raumkernel.removeListener("rendererMediaItemDataChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld-room-title-changed", RaumfeldRoomTitleChangedNode);

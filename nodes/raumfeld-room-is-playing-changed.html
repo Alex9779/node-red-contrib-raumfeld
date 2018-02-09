@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld-room-play-state-changed',{
+    RED.nodes.registerType('raumfeld-room-is-playing-changed',{
         category: 'raumfeld input',
         color: '#CBCBCB',
         defaults: {
@@ -12,13 +12,13 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomNames ?
-                                "'" + this.roomNames + "' play state changed"
-                                : "raumfeld room play state changed");
+                                "'" + this.roomNames + "' is playing changed"
+                                : "raumfeld room is playing changed");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld-room-play-state-changed">
+<script type="text/x-red" data-template-name="raumfeld-room-is-playing-changed">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -40,7 +40,7 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld-room-play-state-changed">
+<script type="text/x-red" data-help-name="raumfeld-room-is-playing-changed">
     <p>Monitors room(s) for play state changes.</p>
 
     <h3>Outputs</h3>
