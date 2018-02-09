@@ -2,7 +2,7 @@
 var RaumkernelLib = require("node-raumkernel");
 
 module.exports = function(RED) {
-    function RaumfeldRoomPlayStateChangedNode(config) {
+    function RaumfeldRoomIsPlayingChangedNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -37,5 +37,5 @@ module.exports = function(RED) {
             node.raumkernelNode.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
-    RED.nodes.registerType("raumfeld-room-play-state-changed", RaumfeldRoomPlayStateChangedNode);
+    RED.nodes.registerType("raumfeld-room-is-playing-changed", RaumfeldRoomIsPlayingChangedNode);
 }
