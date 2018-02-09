@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(RED) {
-    function RaumfeldRoomGetPlayStateNode(config) {
+    function RaumfeldRoomIsPlayingNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -20,7 +20,7 @@ module.exports = function(RED) {
                 if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                     msg.payload = true;
                 }
-                else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT") {
+                else {
                     msg.payload = false;
                 }
             }
@@ -31,5 +31,5 @@ module.exports = function(RED) {
             node.send(msg)
         });
     }
-    RED.nodes.registerType("raumfeld-room-get-play-state", RaumfeldRoomGetPlayStateNode);
+    RED.nodes.registerType("raumfeld-room-is-playing", RaumfeldRoomIsPlayingNode);
 }

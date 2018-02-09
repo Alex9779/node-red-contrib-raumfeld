@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld-room-get-play-state',{
+    RED.nodes.registerType('raumfeld-room-is-playing',{
         category: 'raumfeld function',
         color: '#CBCBCB',
         defaults: {
@@ -12,13 +12,13 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                 "'" + this.roomName + "' get play state"
-                                 : "raumfeld room get play state");
+                                 "'" + this.roomName + "' is playing"
+                                 : "raumfeld room is playing");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld-room-get-play-state">
+<script type="text/x-red" data-template-name="raumfeld-room-is-playing">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -35,24 +35,24 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld-room-get-play-state">
-    <p>Gets the transport state for a room.</p>
+<script type="text/x-red" data-help-name="raumfeld-room-is-playing">
+    <p>Gets if a room is playing.</p>
 
     <h3>Inputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">string</span></dt>
-            <dd>the room to get the current media title for.</dd>
+            <dd>the room to get play state for.</dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
-            <dd>the room to get the current media title for.</dd>
+            <dd>the room to get play state for.</dd>
         </dl>
 
     <h3>Outputs</h3>
         <dl class="message-properties">
             <dl class="message-properties">
                 <dt>payload <span class="property-type">string</span></dt>
-                <dd>transport state of the room.</dd>
+                <dd>play state of the room.</dd>
                 <dt>roomName <span class="property-type">string</span></dt>
-                <dd>the name of the room the title change occurred.</dd>
+                <dd>the name.</dd>
             </dl>
         </dl>
 </script>
