@@ -19,7 +19,9 @@ module.exports = function(RED) {
 
             async function dropRoomsFromZone() {
                 for (let roomMediaRenderer of roomMediaRenderers) {
-                    await node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn(), true);
+                    await node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn(), true).catch(async function () {
+                        await node.raumkernelNode.zoneManager.dropRoomFromZone(roomMediaRenderer.roomUdn(), true);
+                    });
                 }
             }
 
