@@ -2,86 +2,49 @@
     {
         "id": "3aa669ad.8f5106",
         "type": "tab",
-        "label": "Raumfeld Demo",
+        "label": "NH/3/Raumfeld",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "e413dbee.2aaee8",
+        "id": "2bbbbcf.1fdde44",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "roomName",
+                "pt": "flow",
+                "to": "Spielzimmer",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 330,
+        "y": 1160,
+        "wires": [
+            [
+                "c216d51d.c02c58"
+            ]
+        ]
+    },
+    {
+        "id": "70fc6422.0b6d9c",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Setup",
         "info": "",
         "x": 90,
-        "y": 1080,
+        "y": 1100,
         "wires": []
     },
     {
-        "id": "dc840fc0.1eb9b",
-        "type": "inject",
-        "z": "3aa669ad.8f5106",
-        "name": "add Raumfeld",
-        "topic": "homebridge/to/add",
-        "payload": "{\"name\":\"Raumfeld_Spielzimmer_Volume\",\"service\":\"Lightbulb\",\"service_name\":\"Raumfeld\",\"Brightness\":\"default\"}",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 170,
-        "y": 1140,
-        "wires": [
-            [
-                "cc5ece94.e294f8"
-            ]
-        ]
-    },
-    {
-        "id": "cc5ece94.e294f8",
-        "type": "mqtt out",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "topic": "",
-        "qos": "1",
-        "retain": "false",
-        "broker": "e4a2502c.3e8bb",
-        "x": 390,
-        "y": 1140,
-        "wires": []
-    },
-    {
-        "id": "d0502c49.68157",
-        "type": "mqtt out",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "topic": "",
-        "qos": "1",
-        "retain": "false",
-        "broker": "e4a2502c.3e8bb",
-        "x": 390,
-        "y": 1200,
-        "wires": []
-    },
-    {
-        "id": "58a71892.621e8",
-        "type": "inject",
-        "z": "3aa669ad.8f5106",
-        "name": "remove Raumfeld",
-        "topic": "homebridge/to/remove",
-        "payload": "{\"name\":\"Raumfeld_Spielzimmer_Volume\",\"service\":\"Lightbulb\",\"service_name\":\"Raumfeld\",\"Brightness\":\"default\"}",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 190,
-        "y": 1200,
-        "wires": [
-            [
-                "d0502c49.68157"
-            ]
-        ]
-    },
-    {
-        "id": "35be735d.58781c",
+        "id": "3554be88.a4a332",
         "type": "mqtt in",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -92,12 +55,12 @@
         "y": 120,
         "wires": [
             [
-                "f7cd2a33.e874f8"
+                "cdb3b2b5.b8e84"
             ]
         ]
     },
     {
-        "id": "f7cd2a33.e874f8",
+        "id": "cdb3b2b5.b8e84",
         "type": "json",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -105,36 +68,12 @@
         "y": 120,
         "wires": [
             [
-                "fd215af5.f52e7"
+                "76d6ae52.9b73b"
             ]
         ]
     },
     {
-        "id": "fd215af5.f52e7",
-        "type": "switch",
-        "z": "3aa669ad.8f5106",
-        "name": "Raumfeld_Spielzimmer_Volume",
-        "property": "payload.name",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "Raumfeld_Spielzimmer_Volume",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "outputs": 1,
-        "x": 630,
-        "y": 120,
-        "wires": [
-            [
-                "1a46df32.05ab61"
-            ]
-        ]
-    },
-    {
-        "id": "dff1d050.1cd3f8",
+        "id": "d1ef5779.a05b98",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "On/Off",
@@ -154,69 +93,16 @@
         "y": 200,
         "wires": [
             [
-                "b03a15d3.b08b"
+                "a456ffa4.39b92"
             ],
             [
-                "686598a2.680c4"
+                "a0a6b067.51598",
+                "bfe76b6f.8a2888"
             ]
         ]
     },
     {
-        "id": "686598a2.680c4",
-        "type": "change",
-        "z": "3aa669ad.8f5106",
-        "name": "Mute",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "true",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 550,
-        "y": 220,
-        "wires": [
-            [
-                "ec0f7d9a.6cae78"
-            ]
-        ]
-    },
-    {
-        "id": "b03a15d3.b08b",
-        "type": "change",
-        "z": "3aa669ad.8f5106",
-        "name": "Unmute",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "false",
-                "tot": "bool"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 560,
-        "y": 180,
-        "wires": [
-            [
-                "ec0f7d9a.6cae78"
-            ]
-        ]
-    },
-    {
-        "id": "1a46df32.05ab61",
+        "id": "50f698ba.8b29d8",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "on/brightness",
@@ -240,15 +126,15 @@
         "y": 200,
         "wires": [
             [
-                "dff1d050.1cd3f8"
+                "d1ef5779.a05b98"
             ],
             [
-                "c6bc2a49.6d33f8"
+                "673e76a1.546838"
             ]
         ]
     },
     {
-        "id": "93187a8e.89db3",
+        "id": "5d88e7dc.50add8",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -257,7 +143,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Volume\",\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"Brightness\",\t   \"value\": payload\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"Brightness\",\t   \"value\": payload\t}",
                 "tot": "jsonata"
             }
         ],
@@ -266,16 +152,16 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 490,
-        "y": 660,
+        "x": 480,
+        "y": 680,
         "wires": [
             [
-                "e11ecd66.a6ba4"
+                "70d2bcd6.407d74"
             ]
         ]
     },
     {
-        "id": "e11ecd66.a6ba4",
+        "id": "70d2bcd6.407d74",
         "type": "mqtt out",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -284,11 +170,11 @@
         "retain": "true",
         "broker": "e4a2502c.3e8bb",
         "x": 730,
-        "y": 660,
+        "y": 680,
         "wires": []
     },
     {
-        "id": "c6bc2a49.6d33f8",
+        "id": "673e76a1.546838",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "Volume",
@@ -307,15 +193,15 @@
         "to": "",
         "reg": false,
         "x": 560,
-        "y": 260,
+        "y": 280,
         "wires": [
             [
-                "4648f703.bd16d8"
+                "c229ff47.b0e43"
             ]
         ]
     },
     {
-        "id": "b32a8524.5a5c9",
+        "id": "37238b84.c570d4",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -324,7 +210,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Volume\",\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"Brightness\",\t   \"value\": 0\t}",
                 "tot": "jsonata"
             }
         ],
@@ -333,16 +219,16 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 630,
-        "y": 720,
+        "x": 620,
+        "y": 780,
         "wires": [
             [
-                "100fdfc3.ed1358"
+                "ffa992e6.dac9a"
             ]
         ]
     },
     {
-        "id": "100fdfc3.ed1358",
+        "id": "ffa992e6.dac9a",
         "type": "mqtt out",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -350,12 +236,12 @@
         "qos": "1",
         "retain": "true",
         "broker": "e4a2502c.3e8bb",
-        "x": 870,
-        "y": 740,
+        "x": 1130,
+        "y": 780,
         "wires": []
     },
     {
-        "id": "eab6674e.da1808",
+        "id": "47774702.aceb28",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -376,28 +262,28 @@
         "checkall": "true",
         "outputs": 2,
         "x": 430,
-        "y": 740,
+        "y": 760,
         "wires": [
             [
-                "b32a8524.5a5c9"
+                "b8340dd6.add78"
             ],
             [
-                "fa27c517.65351"
+                "37238b84.c570d4"
             ]
         ]
     },
     {
-        "id": "ba97e760.077cb",
+        "id": "ff605973.c68168",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Monitor external changes",
         "info": "",
         "x": 150,
-        "y": 540,
+        "y": 560,
         "wires": []
     },
     {
-        "id": "9845f98f.81f158",
+        "id": "5d6a74c5.3becac",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Home control",
@@ -407,71 +293,7 @@
         "wires": []
     },
     {
-        "id": "abe28a9d.245ef",
-        "type": "inject",
-        "z": "3aa669ad.8f5106",
-        "name": "add Absolut relax",
-        "topic": "homebridge/to/add",
-        "payload": "{\"name\":\"Raumfeld_Spielzimmer_Absolut_relax\",\"service\":\"Switch\",\"service_name\":\"Absolut relax\"}",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 180,
-        "y": 1280,
-        "wires": [
-            [
-                "d5fb5b55.5ddca"
-            ]
-        ]
-    },
-    {
-        "id": "d5fb5b55.5ddca",
-        "type": "mqtt out",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "topic": "",
-        "qos": "1",
-        "retain": "false",
-        "broker": "e4a2502c.3e8bb",
-        "x": 410,
-        "y": 1280,
-        "wires": []
-    },
-    {
-        "id": "6d5cc5a4.abd31c",
-        "type": "mqtt out",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "topic": "",
-        "qos": "1",
-        "retain": "false",
-        "broker": "e4a2502c.3e8bb",
-        "x": 410,
-        "y": 1340,
-        "wires": []
-    },
-    {
-        "id": "4bed1ac4.61ba14",
-        "type": "inject",
-        "z": "3aa669ad.8f5106",
-        "name": "remove Absolut relax",
-        "topic": "homebridge/to/remove",
-        "payload": "{\"name\":\"Raumfeld_Spielzimmer_Absolut_relax\",\"service\":\"Switch\",\"service_name\":\"Absolut relax\"}",
-        "payloadType": "json",
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "x": 200,
-        "y": 1340,
-        "wires": [
-            [
-                "6d5cc5a4.abd31c"
-            ]
-        ]
-    },
-    {
-        "id": "b1166e8e.07d95",
+        "id": "5d0e09f8.1dd988",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -480,7 +302,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Absolut_relax\",\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
                 "tot": "jsonata"
             }
         ],
@@ -490,15 +312,15 @@
         "to": "",
         "reg": false,
         "x": 1070,
-        "y": 880,
+        "y": 900,
         "wires": [
             [
-                "c4f522f4.e2dc"
+                "368b3b71.f9fd74"
             ]
         ]
     },
     {
-        "id": "c4f522f4.e2dc",
+        "id": "368b3b71.f9fd74",
         "type": "mqtt out",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -507,11 +329,11 @@
         "retain": "true",
         "broker": "e4a2502c.3e8bb",
         "x": 1310,
-        "y": 900,
+        "y": 920,
         "wires": []
     },
     {
-        "id": "48df1f77.fe573",
+        "id": "42a0a759.c54e88",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -520,7 +342,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Absolut_relax\",\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
                 "tot": "jsonata"
             }
         ],
@@ -530,42 +352,15 @@
         "to": "",
         "reg": false,
         "x": 1070,
-        "y": 920,
+        "y": 940,
         "wires": [
             [
-                "c4f522f4.e2dc"
+                "368b3b71.f9fd74"
             ]
         ]
     },
     {
-        "id": "fa27c517.65351",
-        "type": "change",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Volume\",\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
-                "tot": "jsonata"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 630,
-        "y": 760,
-        "wires": [
-            [
-                "100fdfc3.ed1358"
-            ]
-        ]
-    },
-    {
-        "id": "21573e.905440c2",
+        "id": "17d66c18.301d54",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -584,18 +379,18 @@
         "checkall": "true",
         "outputs": 2,
         "x": 930,
-        "y": 980,
+        "y": 1000,
         "wires": [
             [
-                "7b2c9156.e1e34"
+                "b584da5b.886538"
             ],
             [
-                "b83502e.d4cb2"
+                "1214217e.7d3e2f"
             ]
         ]
     },
     {
-        "id": "7b2c9156.e1e34",
+        "id": "b584da5b.886538",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -604,7 +399,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Absolut_relax\",\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
                 "tot": "jsonata"
             }
         ],
@@ -614,15 +409,15 @@
         "to": "",
         "reg": false,
         "x": 1130,
-        "y": 980,
+        "y": 1000,
         "wires": [
             [
-                "ca6090e.cbdf3f"
+                "848039d9.eca318"
             ]
         ]
     },
     {
-        "id": "ca6090e.cbdf3f",
+        "id": "848039d9.eca318",
         "type": "mqtt out",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -631,11 +426,11 @@
         "retain": "true",
         "broker": "e4a2502c.3e8bb",
         "x": 1370,
-        "y": 1000,
+        "y": 1020,
         "wires": []
     },
     {
-        "id": "b83502e.d4cb2",
+        "id": "1214217e.7d3e2f",
         "type": "change",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -644,7 +439,7 @@
                 "t": "set",
                 "p": "payload",
                 "pt": "msg",
-                "to": "{\t   \"name\": \"Raumfeld_\" & roomName & \"_Absolut_relax\",\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Absolut relax\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
                 "tot": "jsonata"
             }
         ],
@@ -654,35 +449,35 @@
         "to": "",
         "reg": false,
         "x": 1130,
-        "y": 1020,
+        "y": 1040,
         "wires": [
             [
-                "ca6090e.cbdf3f"
+                "848039d9.eca318"
             ]
         ]
     },
     {
-        "id": "925b8ffa.b620a",
+        "id": "7a6c95d9.6bcc1c",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Volume and mute changes",
         "info": "",
         "x": 170,
-        "y": 600,
+        "y": 620,
         "wires": []
     },
     {
-        "id": "58cc25b0.7c820c",
+        "id": "e16d1d29.7b44a",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Absolut relax",
         "info": "",
         "x": 130,
-        "y": 820,
+        "y": 840,
         "wires": []
     },
     {
-        "id": "c0f684d6.a1db18",
+        "id": "7341fa6e.6b85a4",
         "type": "mqtt in",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -693,12 +488,12 @@
         "y": 380,
         "wires": [
             [
-                "3f52e48b.c11cc4"
+                "d56a278b.1bc668"
             ]
         ]
     },
     {
-        "id": "3f52e48b.c11cc4",
+        "id": "d56a278b.1bc668",
         "type": "json",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -706,36 +501,12 @@
         "y": 380,
         "wires": [
             [
-                "1082ff63.2b1e99"
+                "19ccfdf6.447092"
             ]
         ]
     },
     {
-        "id": "1082ff63.2b1e99",
-        "type": "switch",
-        "z": "3aa669ad.8f5106",
-        "name": "Raumfeld_Spielzimmer_Absolut_relax",
-        "property": "payload.name",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "Raumfeld_Spielzimmer_Absolut_relax",
-                "vt": "str"
-            }
-        ],
-        "checkall": "false",
-        "outputs": 1,
-        "x": 670,
-        "y": 380,
-        "wires": [
-            [
-                "886969dd.44ab2"
-            ]
-        ]
-    },
-    {
-        "id": "886969dd.44ab2",
+        "id": "404a4cc4.3dd744",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "On/Off",
@@ -755,15 +526,16 @@
         "y": 460,
         "wires": [
             [
-                "95cdccd.a139cb"
+                "a4140cd5.a9b87",
+                "8e75217b.03668"
             ],
             [
-                "485b6ae3.7a9dac"
+                "2666472e.8f8f38"
             ]
         ]
     },
     {
-        "id": "f639fb26.19ede8",
+        "id": "aeb0aa7a.64d888",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -782,18 +554,18 @@
         "checkall": "true",
         "outputs": 2,
         "x": 410,
-        "y": 900,
+        "y": 920,
         "wires": [
             [
-                "98c0faf4.4fbc28"
+                "eb9ef1ce.adcdb"
             ],
             [
-                "48df1f77.fe573"
+                "42a0a759.c54e88"
             ]
         ]
     },
     {
-        "id": "df0b9d9a.e8b22",
+        "id": "e042cae3.350698",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -810,18 +582,18 @@
         "checkall": "true",
         "outputs": 2,
         "x": 870,
-        "y": 880,
+        "y": 900,
         "wires": [
             [
-                "b1166e8e.07d95"
+                "5d0e09f8.1dd988"
             ],
             [
-                "48df1f77.fe573"
+                "42a0a759.c54e88"
             ]
         ]
     },
     {
-        "id": "7cad5e1e.7f29c",
+        "id": "8e8bd0bf.cf873",
         "type": "switch",
         "z": "3aa669ad.8f5106",
         "name": "",
@@ -838,42 +610,18 @@
         "checkall": "true",
         "outputs": 2,
         "x": 450,
-        "y": 1000,
-        "wires": [
-            [
-                "9e575103.9656d8"
-            ],
-            [
-                "7f889664.c2984"
-            ]
-        ]
-    },
-    {
-        "id": "7034e596.a9777c",
-        "type": "switch",
-        "z": "3aa669ad.8f5106",
-        "name": "",
-        "property": "payload",
-        "propertyType": "msg",
-        "rules": [
-            {
-                "t": "eq",
-                "v": "Absolut relax",
-                "vt": "str"
-            }
-        ],
-        "checkall": "true",
-        "outputs": 1,
-        "x": 930,
         "y": 1020,
         "wires": [
             [
-                "b83502e.d4cb2"
+                "fb735a4c.08d508"
+            ],
+            [
+                "1214217e.7d3e2f"
             ]
         ]
     },
     {
-        "id": "64a7bdb.1cfe344",
+        "id": "6bb66081.397cd",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Volume and mute",
@@ -883,7 +631,7 @@
         "wires": []
     },
     {
-        "id": "e159a971.513fa",
+        "id": "ae04d821.15f978",
         "type": "comment",
         "z": "3aa669ad.8f5106",
         "name": "Absolut relax",
@@ -893,158 +641,663 @@
         "wires": []
     },
     {
-        "id": "ec0f7d9a.6cae78",
-        "type": "raumfeld-room-set-mute",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "mute": false,
-        "name": "",
-        "x": 780,
-        "y": 200,
-        "wires": []
-    },
-    {
-        "id": "4648f703.bd16d8",
-        "type": "raumfeld-room-set-volume",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "volume": "",
-        "unmute": false,
-        "name": "",
-        "x": 790,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "95cdccd.a139cb",
-        "type": "raumfeld-room-load-favorite",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "favorite": "Absolut relax",
-        "volume": "",
-        "overrideVolume": false,
-        "name": "",
-        "x": 440,
-        "y": 440,
-        "wires": []
-    },
-    {
-        "id": "485b6ae3.7a9dac",
+        "id": "2666472e.8f8f38",
         "type": "raumfeld-room-drop-from-zone",
         "z": "3aa669ad.8f5106",
         "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
+        "roomNames": "Spielzimmer",
         "name": "",
         "x": 430,
-        "y": 480,
+        "y": 500,
         "wires": []
     },
     {
-        "id": "a6291996.f9ee6",
-        "type": "raumfeld-room-volume-changed",
+        "id": "fb735a4c.08d508",
+        "type": "raumfeld-room-get-media-title",
         "z": "3aa669ad.8f5106",
         "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "mute": false,
+        "roomName": "",
         "name": "",
-        "x": 210,
-        "y": 660,
-        "wires": [
-            [
-                "93187a8e.89db3"
-            ]
-        ]
-    },
-    {
-        "id": "2e0fd833.059c7",
-        "type": "raumfeld-room-mute-changed",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "name": "",
-        "x": 200,
-        "y": 740,
-        "wires": [
-            [
-                "eab6674e.da1808"
-            ]
-        ]
-    },
-    {
-        "id": "b1698315.ef4fe",
-        "type": "raumfeld-room-title-changed",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "name": "",
-        "x": 190,
-        "y": 900,
-        "wires": [
-            [
-                "f639fb26.19ede8"
-            ]
-        ]
-    },
-    {
-        "id": "ec4967e2.e3d68",
-        "type": "raumfeld-room-play-state-changed",
-        "z": "3aa669ad.8f5106",
-        "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "Spielzimmer",
-        "name": "",
-        "x": 210,
+        "x": 690,
         "y": 1000,
         "wires": [
             [
-                "7cad5e1e.7f29c"
+                "17d66c18.301d54"
             ]
         ]
     },
     {
-        "id": "98c0faf4.4fbc28",
+        "id": "eb9ef1ce.adcdb",
         "type": "raumfeld-room-get-play-state",
         "z": "3aa669ad.8f5106",
         "raumkernel": "6bb97ccd.b8f4cc",
         "roomName": "",
         "name": "",
         "x": 640,
-        "y": 880,
+        "y": 900,
         "wires": [
             [
-                "df0b9d9a.e8b22"
+                "e042cae3.350698"
             ]
         ]
     },
     {
-        "id": "9e575103.9656d8",
-        "type": "raumfeld-room-get-media-title",
+        "id": "a4140cd5.a9b87",
+        "type": "raumfeld-room-load-favorite",
         "z": "3aa669ad.8f5106",
         "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "",
+        "roomNames": "Spielzimmer",
+        "favorite": "Absolut relax",
+        "volumes": "",
+        "overrideVolume": false,
         "name": "",
-        "x": 690,
-        "y": 980,
-        "wires": [
-            [
-                "21573e.905440c2"
-            ]
-        ]
+        "x": 440,
+        "y": 420,
+        "wires": []
     },
     {
-        "id": "7f889664.c2984",
-        "type": "raumfeld-room-get-media-title",
+        "id": "c229ff47.b0e43",
+        "type": "raumfeld-room-set-volume",
         "z": "3aa669ad.8f5106",
         "raumkernel": "6bb97ccd.b8f4cc",
-        "roomName": "",
+        "roomName": "Spielzimmer",
+        "volume": "",
+        "unmute": true,
         "name": "",
-        "x": 690,
+        "x": 790,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "49371892.bf5b48",
+        "type": "raumfeld-room-play-state-changed",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomNames": "Spielzimmer",
+        "name": "",
+        "x": 200,
         "y": 1020,
         "wires": [
             [
-                "7034e596.a9777c"
+                "8e8bd0bf.cf873"
+            ]
+        ]
+    },
+    {
+        "id": "4fda2c8f.aa9a04",
+        "type": "raumfeld-room-title-changed",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomNames": "Spielzimmer",
+        "name": "",
+        "x": 180,
+        "y": 920,
+        "wires": [
+            [
+                "aeb0aa7a.64d888"
+            ]
+        ]
+    },
+    {
+        "id": "39ea01c.eb4b8fe",
+        "type": "raumfeld-room-mute-changed",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomNames": "Spielzimmer",
+        "name": "",
+        "x": 200,
+        "y": 760,
+        "wires": [
+            [
+                "47774702.aceb28"
+            ]
+        ]
+    },
+    {
+        "id": "6c315690.c8be48",
+        "type": "raumfeld-room-volume-changed",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomNames": "Spielzimmer",
+        "mute": false,
+        "name": "",
+        "x": 210,
+        "y": 680,
+        "wires": [
+            [
+                "5d88e7dc.50add8",
+                "c53fe578.e1c678"
+            ]
+        ]
+    },
+    {
+        "id": "a0a6b067.51598",
+        "type": "raumfeld-room-drop-from-zone",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomNames": "Spielzimmer",
+        "name": "",
+        "x": 810,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "a456ffa4.39b92",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 160,
+        "wires": [
+            [
+                "35d6682a.0757d8"
+            ]
+        ]
+    },
+    {
+        "id": "35d6682a.0757d8",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "homebridge/to/set",
+        "qos": "1",
+        "retain": "true",
+        "broker": "e4a2502c.3e8bb",
+        "x": 1090,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "c53fe578.e1c678",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 480,
+        "y": 640,
+        "wires": [
+            [
+                "70d2bcd6.407d74"
+            ]
+        ]
+    },
+    {
+        "id": "b8340dd6.add78",
+        "type": "raumfeld-room-get-volume",
+        "z": "3aa669ad.8f5106",
+        "raumkernel": "6bb97ccd.b8f4cc",
+        "roomName": "",
+        "name": "",
+        "x": 650,
+        "y": 740,
+        "wires": [
+            [
+                "b22b537d.924f9"
+            ]
+        ]
+    },
+    {
+        "id": "b22b537d.924f9",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"Brightness\",\t   \"value\": payload\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 900,
+        "y": 740,
+        "wires": [
+            [
+                "ffa992e6.dac9a"
+            ]
+        ]
+    },
+    {
+        "id": "bfe76b6f.8a2888",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": false\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 760,
+        "y": 240,
+        "wires": [
+            [
+                "35d6682a.0757d8"
+            ]
+        ]
+    },
+    {
+        "id": "f0e86544.186488",
+        "type": "inject",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 130,
+        "y": 1160,
+        "wires": [
+            [
+                "2bbbbcf.1fdde44"
+            ]
+        ]
+    },
+    {
+        "id": "c216d51d.c02c58",
+        "type": "debug",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 550,
+        "y": 1160,
+        "wires": []
+    },
+    {
+        "id": "8e75217b.03668",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service_name\": \"Raumfeld\",\t   \"characteristic\": \"On\",\t   \"value\": true\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 460,
+        "wires": [
+            [
+                "46ed0914.6a3c68"
+            ]
+        ]
+    },
+    {
+        "id": "46ed0914.6a3c68",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "homebridge/to/set",
+        "qos": "1",
+        "retain": "true",
+        "broker": "e4a2502c.3e8bb",
+        "x": 610,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "6a6f0a5.b9329f4",
+        "type": "inject",
+        "z": "3aa669ad.8f5106",
+        "name": "add Raumfeld",
+        "topic": "homebridge/to/add",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 190,
+        "y": 1280,
+        "wires": [
+            [
+                "7745f948.0fcfd8"
+            ]
+        ]
+    },
+    {
+        "id": "66c9eef.7d8db1",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "broker": "e4a2502c.3e8bb",
+        "x": 590,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "dcb54900.f4c3d8",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "broker": "e4a2502c.3e8bb",
+        "x": 610,
+        "y": 1340,
+        "wires": []
+    },
+    {
+        "id": "4f095c8d.7cdee4",
+        "type": "inject",
+        "z": "3aa669ad.8f5106",
+        "name": "remove Raumfeld",
+        "topic": "homebridge/to/remove",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 200,
+        "y": 1340,
+        "wires": [
+            [
+                "d2797e8f.b078e"
+            ]
+        ]
+    },
+    {
+        "id": "1b3452b7.c8a24d",
+        "type": "inject",
+        "z": "3aa669ad.8f5106",
+        "name": "add Absolut relax",
+        "topic": "homebridge/to/add/service",
+        "payload": "{\"name\":\"Raumfeld_Küche_Absolut_relax\",\"service\":\"Switch\",\"service_name\":\"Absolut relax\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 200,
+        "y": 1460,
+        "wires": [
+            [
+                "f954b741.a51568"
+            ]
+        ]
+    },
+    {
+        "id": "7f0e6ce9.9123c4",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "broker": "e4a2502c.3e8bb",
+        "x": 610,
+        "y": 1460,
+        "wires": []
+    },
+    {
+        "id": "9b8b6e7b.862ea",
+        "type": "mqtt out",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "topic": "",
+        "qos": "1",
+        "retain": "false",
+        "broker": "e4a2502c.3e8bb",
+        "x": 650,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "6e2463a9.c0f09c",
+        "type": "inject",
+        "z": "3aa669ad.8f5106",
+        "name": "remove Absolut relax",
+        "topic": "homebridge/to/remove/service",
+        "payload": "{\"name\":\"Raumfeld_Küche_Absolut_relax\",\"service\":\"Switch\",\"service_name\":\"Absolut relax\"}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "x": 220,
+        "y": 1520,
+        "wires": [
+            [
+                "448d69c2.5d7d98"
+            ]
+        ]
+    },
+    {
+        "id": "7745f948.0fcfd8",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service\": \"Lightbulb\",\t   \"service_name\": \"Raumfeld\",\t   \"Brightness\": \"default\"\t\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 400,
+        "y": 1280,
+        "wires": [
+            [
+                "66c9eef.7d8db1"
+            ]
+        ]
+    },
+    {
+        "id": "d2797e8f.b078e",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service\": \"Lightbulb\",\t   \"service_name\": \"Raumfeld\",\t   \"Brightness\": \"default\"\t\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 1340,
+        "wires": [
+            [
+                "dcb54900.f4c3d8"
+            ]
+        ]
+    },
+    {
+        "id": "f954b741.a51568",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service\":\"Switch\",\t   \"service_name\":\"Absolut relax\"\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 420,
+        "y": 1460,
+        "wires": [
+            [
+                "7f0e6ce9.9123c4"
+            ]
+        ]
+    },
+    {
+        "id": "448d69c2.5d7d98",
+        "type": "change",
+        "z": "3aa669ad.8f5106",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "{\t   \"name\": \"Raumfeld_\" & $flowContext(\"roomName\"),\t   \"service\":\"Switch\",\t   \"service_name\":\"Absolut relax\"\t}",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 1520,
+        "wires": [
+            [
+                "9b8b6e7b.862ea"
+            ]
+        ]
+    },
+    {
+        "id": "5049b5fd.20d1ec",
+        "type": "comment",
+        "z": "3aa669ad.8f5106",
+        "name": "Services",
+        "info": "",
+        "x": 140,
+        "y": 1400,
+        "wires": []
+    },
+    {
+        "id": "55b12a73.088e84",
+        "type": "comment",
+        "z": "3aa669ad.8f5106",
+        "name": "Accessory",
+        "info": "",
+        "x": 140,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "76d6ae52.9b73b",
+        "type": "switch",
+        "z": "3aa669ad.8f5106",
+        "name": "Room Volume",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "jsonata_exp",
+                "v": "payload.name = \"Raumfeld_\" & $flowContext(\"roomName\") and payload.service_name = \"Raumfeld\"",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 580,
+        "y": 120,
+        "wires": [
+            [
+                "50f698ba.8b29d8"
+            ]
+        ]
+    },
+    {
+        "id": "19ccfdf6.447092",
+        "type": "switch",
+        "z": "3aa669ad.8f5106",
+        "name": "Room Absolut relax",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "jsonata_exp",
+                "v": "payload.name = \"Raumfeld_\" & $flowContext(\"roomName\") and payload.service_name = \"Absolut relax\"",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 1,
+        "x": 610,
+        "y": 380,
+        "wires": [
+            [
+                "404a4cc4.3dd744"
             ]
         ]
     },
@@ -1071,7 +1324,7 @@
     {
         "id": "6bb97ccd.b8f4cc",
         "type": "raumfeld-raumkernel",
-        "z": "",
+        "z": 0,
         "raumfeldHost": "0.0.0.0"
     }
 ]
