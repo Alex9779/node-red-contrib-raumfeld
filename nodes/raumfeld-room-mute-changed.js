@@ -28,7 +28,7 @@ module.exports = function(RED) {
         node.raumkernelNode.raumkernel.on("rendererStateKeyValueChanged", handleEvent);
 
         node.on("close", function() {
-            node.raumkernelNode.removeListener("rendererStateKeyValueChanged", handleEvent);
+            node.raumkernelNode.raumkernel.removeListener("rendererStateKeyValueChanged", handleEvent);
         });
     }
     RED.nodes.registerType("raumfeld-room-mute-changed", RaumfeldRoomMuteChangedNode);
