@@ -20,7 +20,7 @@ module.exports = function(RED) {
                 if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                     msg.payload = true;
                 }
-                else {
+                else if (_newValue == "NO_MEDIA_PRESENT") {
                     msg.payload = false;
                 }
             }
@@ -28,7 +28,7 @@ module.exports = function(RED) {
                 msg.payload = false;
             }
 
-            node.send(msg)
+            if (msg.hasOwnProperty("payload")) node.send(msg);
         });
     }
     RED.nodes.registerType("raumfeld-room-is-playing", RaumfeldRoomIsPlayingNode);
