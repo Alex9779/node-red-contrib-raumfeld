@@ -20,7 +20,7 @@ module.exports = function(RED) {
                 if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                     msg.payload = true;
                 }
-                else if (_newValue == "NO_MEDIA_PRESENT") {
+                else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT") {
                     msg.payload = false;
                 }
             }
