@@ -11,7 +11,7 @@
     "raumfeld"
   ],
   "dependencies": {
-    "node-raumkernel": "^1.2.17",
+    "node-raumkernel": "^1.2.21",
     "xml2js": "^0.4.19"
   },
   "repository": {
