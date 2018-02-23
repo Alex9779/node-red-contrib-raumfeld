@@ -61,23 +61,25 @@ module.exports = function(RED) {
 
                 if (!mediaRendererVirtual) {
                     node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[0].roomUdn(), "", true).then(function() {
-                        mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
+                        setTimeout(function () {
+                            mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomNames[0]);
 
-                        for (let i = 1; i < roomMediaRenderers.length; i++) {
-                            if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
-                                node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
+                            for (let i = 1; i < roomMediaRenderers.length; i++) {
+                                if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
+                                    node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
+                                }
                             }
-                        }
 
-                        if (volumes[0]) {
-                            roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
-                                var volume = volumes[i] ? volumes[i] : volumes[0];
+                            if (volumes[0]) {
+                                roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                    var volume = volumes[i] ? volumes[i] : volumes[0];
 
-                                roomMediaRenderer.setVolume(volume);
-                            });
-                        }
+                                    roomMediaRenderer.setVolume(volume);
+                                });
+                            }
 
-                        mediaRendererVirtual.loadPlaylist(playlist);
+                            mediaRendererVirtual.loadPlaylist(playlist);
+                        }, 1000);
                     });
                 }
                 else {
