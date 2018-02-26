@@ -124,8 +124,12 @@ module.exports = function(RED) {
                             });
                         }
 
-                        roomMediaRenderers.forEach(roomMediaRenderer => {
+                        roomMediaRenderers.forEach(roomMediaRenderer, i => {
                             if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
+                                var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                roomMediaRenderer.setVolume(volume);
+
                                 node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn());
                             }
                         });
