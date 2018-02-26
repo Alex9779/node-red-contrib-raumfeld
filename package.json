@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-raumfeld",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Control a Teufel Raumfeld system",
   "author": "Alexander Leisentritt",
   "license": "ISC",
