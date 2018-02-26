@@ -117,15 +117,19 @@ module.exports = function(RED) {
 
                     if (alreadyPlaying)  {
                         if (overrideVolume && volumes[0]) {
-                            roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                            roomMediaRenderers.forEach(roomMediaRenderer, i => {
                                 var volume = volumes[i] ? volumes[i] : volumes[0];
 
                                 roomMediaRenderer.setVolume(volume);
                             });
                         }
 
-                        roomMediaRenderers.forEach(roomMediaRenderer => {
+                        roomMediaRenderers.forEach(roomMediaRenderer, i => {
                             if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderer.roomUdn()]) {
+                                var volume = volumes[i] ? volumes[i] : volumes[0];
+
+                                roomMediaRenderer.setVolume(volume);
+
                                 node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderer.roomUdn(), mediaRendererVirtual.udn());
                             }
                         });
@@ -145,7 +149,7 @@ module.exports = function(RED) {
                                     }
 
                                     if (volumes[0]) {
-                                        roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                        roomMediaRenderers.forEach(roomMediaRenderer, i => {
                                             var volume = volumes[i] ? volumes[i] : volumes[0];
 
                                             roomMediaRenderer.setVolume(volume);
@@ -165,7 +169,7 @@ module.exports = function(RED) {
                                 }
 
                                 if (volumes[0]) {
-                                    roomMediaRenderers.forEach(function(roomMediaRenderer, i) {
+                                    roomMediaRenderers.forEach(roomMediaRenderer, i => {
                                         var volume = volumes[i] ? volumes[i] : volumes[0];
 
                                         roomMediaRenderer.setVolume(volume);
