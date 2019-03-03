@@ -11,7 +11,7 @@ module.exports = function(RED) {
             var roomName = config.roomName || msg.roomName;
             var action = config.action || msg.action || msg.payload;
 
-            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
             if (roomMediaRenderer) {
                 roomMediaRenderer[action]().then(function() {
