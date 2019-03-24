@@ -5,22 +5,33 @@
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
             roomName: {value: ""},
-            volume: {value: "", validate: RED.validators.regex(/^(\s*|[0-9][0-9]?|100)$/)},
+            volume: {value: "", validate: function(value) {
+                return this.relative ? value.match(/^-?(\s*|[0-9][0-9]?|100)$/) : value.match(/^(\s*|[0-9][0-9]?|100)$/)
+            }},
+            relative: {value: false},
             unmute: {value: false},
-            name: {value: ""}
+            name: {value: ""},
+            scope: {value: "ROOM", required:true},
         },
         inputs:1,
         outputs:0,
         icon: "raumfeld.png",
         label: function() {
+            if(this.relative)
+                return this.name || (this.roomName ?
+                                        (this.volume ?
+                                            ("'" + this.roomName + "' " + (this.volume < 0 ? "decrease volume by " : " increase volume by " )  + this.volume)
+                                            : "'" + this.roomName + "' change volume")
+                                        : "raumfeld room change volume");
             return this.name || (this.roomName ?
-                                 this.volume ?
-                                 "'" + this.roomName + "' set volume to " + this.volume
-                                 : "'" + this.roomName + "' set volume"
-                                 : "raumfeld room set volume");
+                                    (this.volume ?
+                                        ("'" + this.roomName + "' set volume to "  + this.volume)
+                                        : "'" + this.roomName + "' set volume")
+                                    : "raumfeld room set volume");
         }
     });
 </script>
+
 
 <script type="text/x-red" data-template-name="raumfeld-room-set-volume">
     <div class="form-row">
@@ -34,8 +45,22 @@
     </div>
 
     <div class="form-row">
+        <label for="node-input-scope"><i class="fa fa-home"></i><span>Scope</span></label>
+        <select type="text" id="node-input-scope">
+            <option value="ROOM">Room</option>
+            <option value="ZONE">Zone</option>
+        </select>
+    </div>
+
+    <div class="form-row">
         <label for="node-input-volume"><i class="fa fa-volume-up"></i> Volume</label>
         <input type="text" id="node-input-volume" placeholder="Volume">
+    </div>
+
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-relative" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-relative" style="width: 70%;">Relative volume change</label>
     </div>
 
     <div class="form-row">
