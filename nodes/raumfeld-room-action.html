@@ -1,0 +1,64 @@
+<script type="text/javascript">
+    RED.nodes.registerType('raumfeld-room-action',{
+        category: 'raumfeld output',
+        color: '#CBCBCB',
+        defaults: {
+            raumkernel: {type: "raumfeld-raumkernel", required: true},
+            roomName: {value: ""},
+            action: {value: "", validate: RED.validators.regex(/^(play|pause|stop|next|prev)$/)},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "raumfeld.png",
+        label: function() {
+            return this.name || (this.roomName ?
+                                 this.action ?
+                                 "'" + this.roomName + "' call action to " + this.action
+                                 : "'" + this.roomName + "' call action"
+                                 : "raumfeld room action");
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="raumfeld-room-action">
+    <div class="form-row">
+        <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
+        <input type="text" id="node-input-raumkernel">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-roomName"><i class="fa fa-home"></i> Room name</label>
+        <input type="text" id="node-input-roomName" placeholder="Room name">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-action"><i class="fa fa-action"></i> Action</label>
+        <select id="node-input-action">
+            <option value="play">Play</option>
+            <option value="pause">Pause</option>
+            <option value="stop">Stop</option>
+            <option value="next">Next</option>
+            <option value="prev">Previous</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="raumfeld-room-action">
+    <p>Calls an action in a room.</p>
+
+    <h3>Inputs</h3>
+        <dl class="message-properties">
+            <dt>payload <span class="property-type">string</span></dt>
+            <dd>The action to be called, may be play, pause, stop, next or prev</dd>
+            <dt class="optional">action <span class="property-type">string</span></dt>
+            <dd>The action to be called, may be play, pause, stop, next or prev</dd>
+            <dt class="optional">roomName <span class="property-type">string</span></dt>
+            <dd>the room where to call the action.</dd>
+        </dl>
+</script>
