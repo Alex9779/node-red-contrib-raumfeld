@@ -20,7 +20,7 @@
             if(this.relative)
                 return this.name || (this.roomName ?
                                         (this.volume ?
-                                            ("'" + this.roomName + "' " + (this.volume < 0 ? "decrease volume by " : " increase volume by " )  + this.volume)
+                                            ("'" + this.roomName + "' " + (this.volume < 0 ? "decrease volume by " : " increase volume by " )  + Math.abs(this.volume))
                                             : "'" + this.roomName + "' change volume")
                                         : "raumfeld room change volume");
             return this.name || (this.roomName ?
