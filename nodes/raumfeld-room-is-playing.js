@@ -20,9 +20,11 @@ module.exports = function(RED) {
                 if (mediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                     msg.payload = true;
                 }
-                else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT") {
+                else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT" ||
+                         mediaRendererVirtual.rendererState.TransportState == "STOPPED") {
                     msg.payload = false;
                 }
+
             }
             else {
                 msg.payload = false;
