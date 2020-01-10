@@ -12,8 +12,6 @@ module.exports = function(RED) {
 
             var mediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
-            var msg = {};
-
             msg.roomName = roomName;
 
             if (mediaRenderer) {

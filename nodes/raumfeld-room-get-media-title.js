@@ -12,8 +12,6 @@ module.exports = function(RED) {
 
             var mediaRendererVirtual = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
-            var msg = {};
-
             msg.roomName = roomName;
             msg.payload = "No media!";
 
