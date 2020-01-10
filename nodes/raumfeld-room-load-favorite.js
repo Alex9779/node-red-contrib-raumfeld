@@ -40,15 +40,18 @@ module.exports = function(RED) {
                 var xml = _data;
 
                 parseString(xml, function (err, result) {
-                    result["DIDL-Lite"].container.forEach(container => {
-                        if (container["dc:title"][0] == favorite)
-                        {
-                            favoriteXMLObject = container;
-                            favoriteType = "container";
-                        }
-                    });
+                    if (result["DIDL-Lite"].container) {
+                        result["DIDL-Lite"].container.forEach(container => {
+                            if (container["dc:title"][0] == favorite)
+                            {
+                                favoriteXMLObject = container;
+                                favoriteType = "container";
+                            }
+                        });
+                    }
 
-                    if (!favoriteXMLObject) {
+                    if (!favoriteXMLObject
+                        && result["DIDL-Lite"].item) {
                         result["DIDL-Lite"].item.forEach(item => {
                             if (item["dc:title"][0] == favorite)
                             {
