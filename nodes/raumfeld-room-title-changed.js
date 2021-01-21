@@ -22,7 +22,7 @@ module.exports = function(RED) {
                 if ((roomNames[0] == "" || roomNames.includes(eventRoomName))) {
                     msg.payload = _mediaItemData.title;
                     msg.title = _mediaItemData.title;
-                    msg.parentId = _mediaItemData.parentId;
+                    msg.refID = _mediaItemData.refID;
 
                     node.send(msg);
                 }
