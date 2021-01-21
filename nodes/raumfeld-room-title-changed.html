@@ -1,19 +1,19 @@
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld-room-title-changed',{
+    RED.nodes.registerType('raumfeld-room-title-changed', {
         category: 'raumfeld input',
         color: '#CBCBCB',
         defaults: {
-            raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomNames: {value: "", validate: RED.validators.regex(/^$|^.*\S.*$/)},
-            name: {value: ""}
+            raumkernel: { type: "raumfeld-raumkernel", required: true },
+            roomNames: { value: "", validate: RED.validators.regex(/^$|^.*\S.*$/) },
+            name: { value: "" }
         },
-        inputs:0,
-        outputs:1,
+        inputs: 0,
+        outputs: 1,
         icon: "raumfeld.png",
-        label: function() {
+        label: function () {
             return this.name || (this.roomNames ?
-                                "'" + this.roomNames + "' title changed"
-                                : "raumfeld room title changed");
+                "'" + this.roomNames + "' title changed"
+                : "raumfeld room title changed");
         }
     });
 </script>
@@ -51,7 +51,7 @@
             <dd>the name of the room the title change occurred.</dd>
             <dt>title <span class="property-type">string</span></dt>
             <dd>the title of the current media item. (Equals <code>msg.payload</code></dd>
-            <dt>parentId <span class="property-type">string</span></dt>
-            <dd>the path of the media item's parent item.</dd>
+            <dt>refID <span class="property-type">string</span></dt>
+            <dd>the reference ID of the item being played.</dd>
         </dl>
 </script>
