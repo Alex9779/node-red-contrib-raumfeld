@@ -17,7 +17,7 @@ module.exports = function(RED) {
 
             if (mediaRendererVirtual) {
                 msg.payload = mediaRendererVirtual.currentMediaItemData.title;
-                msg.parentId = mediaRendererVirtual.currentMediaItemData.parentId;
+                msg.refID = mediaRendererVirtual.currentMediaItemData.refID;
             }
 
             node.send(msg);

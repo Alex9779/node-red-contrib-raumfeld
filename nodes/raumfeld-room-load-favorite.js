@@ -108,7 +108,7 @@ module.exports = function(RED) {
                         case "object.item.audioItem.audioBroadcast.radio":
                             node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
                                 if (existingMediaRendererVirtual.currentMediaItemData) {
-                                    if (existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
+                                    if (existingMediaRendererVirtual.currentMediaItemData.refID == favoriteXMLObject["$"]["refID"]
                                             && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                                         mediaRendererVirtual = existingMediaRendererVirtual;
                                         alreadyPlaying = true;

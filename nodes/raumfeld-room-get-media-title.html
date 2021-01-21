@@ -1,19 +1,19 @@
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld-room-get-media-title',{
+    RED.nodes.registerType('raumfeld-room-get-media-title', {
         category: 'raumfeld function',
         color: '#CBCBCB',
         defaults: {
-            raumkernel: {type: "raumfeld-raumkernel", required: true},
-            roomName: {value: ""},
-            name: {value: ""}
+            raumkernel: { type: "raumfeld-raumkernel", required: true },
+            roomName: { value: "" },
+            name: { value: "" }
         },
-        inputs:1,
-        outputs:1,
+        inputs: 1,
+        outputs: 1,
         icon: "raumfeld.png",
-        label: function() {
+        label: function () {
             return this.name || (this.roomName ?
-                                 "'" + this.roomName + "' get media title"
-                                 : "raumfeld room get media title");
+                "'" + this.roomName + "' get media title"
+                : "raumfeld room get media title");
         }
     });
 </script>
@@ -52,7 +52,7 @@
             <dd>the title of the current media item. <code>No media!</code> if nothing is playing or loaded.</dd>
             <dt>roomName <span class="property-type">string</span></dt>
             <dd>the room.</dd>
-            <dt>parentId <span class="property-type">string</span></dt>
-            <dd>the path of the media item's parent item.</dd>
+            <dt>refID <span class="property-type">string</span></dt>
+            <dd>the reference ID of the item being played.</dd>
         </dl>
 </script>
