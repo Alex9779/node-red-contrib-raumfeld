@@ -94,7 +94,7 @@ module.exports = function(RED) {
                         case "object.item.audioItem.musicTrack":
                             node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
                                 if (existingMediaRendererVirtual.currentMediaItemData) {
-                                    if (mediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
+                                    if (existingMediaRendererVirtual.currentMediaItemData.artist == favoriteXMLObject["upnp:artist"]["0"]
                                             && existingMediaRendererVirtual.currentMediaItemData.album == favoriteXMLObject["upnp:album"]["0"]
                                             && existingMediaRendererVirtual.currentMediaItemData.title == favoriteXMLObject["dc:title"]["0"]
                                             && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
