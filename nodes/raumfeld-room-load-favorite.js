@@ -179,7 +179,12 @@ module.exports = function(RED) {
                                     });
                                 }
 
-                                mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
+                                if (favoriteXMLObject["upnp:class"][0].startsWith("object.container")) {
+                                    mediaRendererVirtual.loadContainer(favoriteXMLObject.$.id);
+                                }
+                                else if (favoriteXMLObject["upnp:class"][0].startsWith("object.item")) {
+                                    mediaRendererVirtual.loadSingle(favoriteXMLObject.$.id);
+                                }                                
                             });
                         }
                     }
