@@ -19,7 +19,8 @@ module.exports = function(RED) {
                     msg.payload = true;
                 }
                 else if (mediaRendererVirtual.rendererState.TransportState == "NO_MEDIA_PRESENT" ||
-                         mediaRendererVirtual.rendererState.TransportState == "STOPPED") {
+                         mediaRendererVirtual.rendererState.TransportState == "STOPPED" ||
+                         mediaRendererVirtual.rendererState.TransportState == "PAUSED_PLAYBACK") {
                     msg.payload = false;
                 }
 
