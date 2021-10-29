@@ -22,7 +22,7 @@ module.exports = function(RED) {
                     if (_newValue == "PLAYING") {
                         msg.payload = true;
                     }
-                    else if (_newValue == "NO_MEDIA_PRESENT") {
+                    else if (_newValue == "NO_MEDIA_PRESENT" || _newValue == "STOPPED" || _newValue == "PAUSED_PLAYBACK") {
                         msg.payload = false;
                     }
 
