@@ -33,7 +33,7 @@ module.exports = function(RED) {
 
             node.raumkernelNode.deviceManager.mediaRenderersVirtual.forEach(existingMediaRendererVirtual => {
                 if (existingMediaRendererVirtual.currentMediaItemData) {
-                    if (existingMediaRendererVirtual.currentMediaItemData.containerId == MYPLAYLISTS + es(playlist)
+                    if (existingMediaRendererVirtual.currentMediaItemData.parentID == "0/Playlists/MyPlaylists/" + es(playlist)
                             && existingMediaRendererVirtual.rendererState.TransportState == "PLAYING") {
                         mediaRendererVirtual = existingMediaRendererVirtual;
                         alreadyPlaying = true;
@@ -87,7 +87,7 @@ module.exports = function(RED) {
                     });
                 }
                 else {
-                    roomMediaRenderer.leaveStandby(true).then(function() {
+                    roomMediaRenderers[0].leaveStandby(true).then(function() {
                         for (let i = 1; i < roomMediaRenderers.length; i++) {
                             if (!mediaRendererVirtual.rendererState["rooms"][roomMediaRenderers[i].roomUdn()]) {
                                 node.raumkernelNode.zoneManager.connectRoomToZone(roomMediaRenderers[i].roomUdn(), mediaRendererVirtual.udn());
