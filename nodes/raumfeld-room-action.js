@@ -14,8 +14,12 @@ module.exports = function(RED) {
             var roomMediaRenderer = node.raumkernelNode.deviceManager.getVirtualMediaRenderer(roomName);
 
             if (roomMediaRenderer) {
-                roomMediaRenderer[action]().then(function() {
+                roomMediaRenderer[action]()
+                .then(function() {
                     // nothing to do after this
+                })
+                .catch(function() {
+                    // for now just ignore the error
                 });
             }
         });
