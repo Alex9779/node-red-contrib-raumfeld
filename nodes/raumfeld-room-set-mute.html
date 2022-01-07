@@ -5,7 +5,7 @@
         defaults: {
             raumkernel: {type: "raumfeld-raumkernel", required: true},
             roomName: {value: ""},
-            mute: {value: false},
+            mute: {value: true},
             name: {value: ""}
         },
         inputs:1,
@@ -15,6 +15,12 @@
             return this.name || (this.roomName ?
                                  "'" + this.roomName + "' set mute"
                                  : "raumfeld room set mute");
+        },
+        oneditprepare: function() {
+            $("#node-input-mute").typedInput({
+                type:"bool",
+                types:["bool"]
+            })
         }
     });
 </script>
@@ -34,6 +40,11 @@
         <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+
+    <div class="form-row">
+        <label for="node-input-mute"><i class="fa fa-tag"></i> Mute</label>
+        <input type="text" id="node-input-mute" placeholder="Mute">
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="raumfeld-room-set-mute">
@@ -46,6 +57,6 @@
             <dt class="optional">mute <span class="property-type">boolean</span></dt>
             <dd>the value of the mute state to set.</dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
-            <dd>the room where to set the volume.</dd>
+            <dd>the room where to set the mute state.</dd>
         </dl>
 </script>

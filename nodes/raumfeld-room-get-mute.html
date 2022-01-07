@@ -1,5 +1,5 @@
 <script type="text/javascript">
-    RED.nodes.registerType('raumfeld-room-get-volume',{
+    RED.nodes.registerType('raumfeld-room-get-mute',{
         category: 'raumfeld function',
         color: '#CBCBCB',
         defaults: {
@@ -12,13 +12,13 @@
         icon: "raumfeld.png",
         label: function() {
             return this.name || (this.roomName ?
-                                 "'" + this.roomName + "' get volume"
-                                 : "raumfeld room get volume");
+                                 "'" + this.roomName + "' get mute"
+                                 : "raumfeld room get mute");
         }
     });
 </script>
 
-<script type="text/x-red" data-template-name="raumfeld-room-get-volume">
+<script type="text/x-red" data-template-name="raumfeld-room-get-mute">
     <div class="form-row">
         <label for="node-input-raumkernel"><i class="fa fa-globe"></i> Raumkernel</label>
         <input type="text" id="node-input-raumkernel">
@@ -35,21 +35,21 @@
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="raumfeld-room-get-volume">
-    <p>Gets the volume for a room.</p>
+<script type="text/x-red" data-help-name="raumfeld-room-get-mute">
+    <p>Gets the mute state for a room.</p>
 
     <h3>Inputs</h3>
         <dl class="message-properties">
             <dt>payload <span class="property-type">string</span></dt>
-            <dd>the room to get the volume for.</dd>
+            <dd>the room to get the mute state for.</dd>
             <dt class="optional">roomName <span class="property-type">string</span></dt>
-            <dd>the room to get the volume for.</dd>
+            <dd>the room to get mute state for.</dd>
         </dl>
 
     <h3>Outputs</h3>
         <dl class="message-properties">
-            <dt>payload <span class="property-type">string</span></dt>
-            <dd>the volume</dd>
+            <dt>payload <span class="property-type">boolean</span></dt>
+            <dd>the mute state</dd>
             <dt>roomName <span class="property-type">string</span></dt>
             <dd>the room.</dd>
         </dl>

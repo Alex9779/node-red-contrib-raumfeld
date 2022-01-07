@@ -1,7 +1,7 @@
 "use strict";
 
 module.exports = function(RED) {
-    function RaumfeldRoomGetVolumeNode(config) {
+    function RaumfeldRoomGetMuteNode(config) {
         RED.nodes.createNode(this, config);
         var node = this;
 
@@ -9,17 +9,17 @@ module.exports = function(RED) {
 
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
-
+            
             var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
             msg.roomName = roomName;
 
             if (roomMediaRenderer) {
-                msg.payload = roomMediaRenderer.rendererState.Volume;
+                msg.payload = roomMediaRenderer.rendererState.Mute == '0' ? false : true;
             }
 
             if (msg.hasOwnProperty("payload")) node.send(msg);
         });
     }
-    RED.nodes.registerType("raumfeld-room-get-volume", RaumfeldRoomGetVolumeNode);
+    RED.nodes.registerType("raumfeld-room-get-mute", RaumfeldRoomGetMuteNode);
 }
