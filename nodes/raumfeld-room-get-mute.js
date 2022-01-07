@@ -10,12 +10,12 @@ module.exports = function(RED) {
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName || msg.payload;
             
-            var mediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
+            var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
             msg.roomName = roomName;
 
-            if (mediaRenderer) {
-                msg.payload = mediaRenderer.rendererState.Mute == '0' ? false : true;
+            if (roomMediaRenderer) {
+                msg.payload = roomMediaRenderer.rendererState.Mute == '0' ? false : true;
             }
 
             if (msg.hasOwnProperty("payload")) node.send(msg);
