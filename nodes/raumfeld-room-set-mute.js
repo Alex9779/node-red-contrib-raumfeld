@@ -9,7 +9,7 @@ module.exports = function(RED) {
 
         node.on("input", function(msg) {
             var roomName = config.roomName || msg.roomName;
-            var mute = Boolean(msg.mute) || Boolean(msg.payload);
+            var mute = config.mute || Boolean(msg.mute) || Boolean(msg.payload);
 
             var roomMediaRenderer = node.raumkernelNode.deviceManager.getMediaRenderer(roomName);
 
