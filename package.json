@@ -24,6 +24,7 @@
       "raumfeld room drop from zone": "./nodes/raumfeld-room-drop-from-zone.js",
       "raumfeld room get media title": "./nodes/raumfeld-room-get-media-title.js",
       "raumfeld room get volume": "./nodes/raumfeld-room-get-volume.js",
+      "raumfeld room get mute": "./nodes/raumfeld-room-get-mute.js",
       "raumfeld room is playing changed": "./nodes/raumfeld-room-is-playing-changed.js",
       "raumfeld room is playing": "./nodes/raumfeld-room-is-playing.js",
       "raumfeld room load favorite": "./nodes/raumfeld-room-load-favorite.js",
