@@ -14,6 +14,8 @@ module.exports = function(RED) {
             if (roomNames) roomNames = roomNames.split(",")
             else roomNames = [""];
 
+            var groupIfPlaying = config.groupIfPlaying;
+
             var favorite = config.favorite || msg.favorite || msg.payload;
 
             var volumes = config.volumes || msg.volumes;
@@ -118,7 +120,7 @@ module.exports = function(RED) {
                             break;
                     }
 
-                    if (alreadyPlaying)  {
+                    if (alreadyPlaying && !groupIfPlaying)  {
                         if (overrideVolume && volumes[0]) {
                             roomMediaRenderers.forEach((roomMediaRenderer, i) => {
                                 var volume = volumes[i] ? volumes[i] : volumes[0];
