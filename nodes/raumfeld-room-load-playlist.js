@@ -43,7 +43,7 @@ module.exports = function(RED) {
                 }
             });
 
-            if (alreadyPlaying && !groupIfPlaying)  {
+            if (alreadyPlaying && groupIfPlaying)  {
                 if (overrideVolume && volumes[0]) {
                     roomMediaRenderers.forEach((roomMediaRenderer, i) => {
                         var volume = volumes[i] ? volumes[i] : volumes[0];
